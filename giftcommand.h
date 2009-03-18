@@ -13,7 +13,7 @@ public:
     bool parseString(QString protocolString);
     bool parseString(QString name, QString value, QString body );
 private:
-    enum ElementType {NAME, VALUE, BODY, END};
+    enum ElementType {NAME, VALUE, BODY};
     QHash<QString,GIftCommand*> subcomands;
     QString name;
     QString value;

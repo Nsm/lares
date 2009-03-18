@@ -1,19 +1,37 @@
+/**
+  Cada objeto GIftCommand representa un comando dentro de la comunicacion con el servidor de GIft.
+  Esta clase permite tanto parsear el string de un comando entrante para convertirlo en un objeto GIftCommand,
+  como obtener el string del protocolo correspondiente a un objeto para poder enviarlo al servidor.
+  Un comando ademas de un nombre y un valor, puede contener subcomandos.
+  (No se diferencia entre CLAVE y SUBCOMANDO como los describe la documentacion ya que se considera que una clave es tan solo
+  un tipo especial de subcomando que no contiene otros subcomandos)
+**/
 #include "giftcommand.h"
 
 GIftCommand::GIftCommand()
 {
 }
 
+/**
+  Construye un objeto que representa a un comando GIft a partir de un string conteninedo el comando como lo espesifica el protocolo.
+*/
 GIftCommand::GIftCommand(QString protocolString)
 {
     parseString(protocolString);
 }
 
+/**
+  Construye un objeto que representa a un comando GIft a partir de su nombre, valor un string conteninedo el cuerpo del comando como lo espesifica el protocolo.
+*/
 GIftCommand::GIftCommand(QString name, QString value, QString body)
 {
     parseString(name,value,body);
 }
 
+/**
+ * Parsea un string conteniendo un comando completo del protocolo de comunicacion con GIft.
+ * A partir del string se obtienen los datos del objeto que representan al comando.
+ */
 bool GIftCommand::parseString(QString protocolString){
     QString element;
     QString name, value, body;
@@ -37,6 +55,10 @@ bool GIftCommand::parseString(QString protocolString){
     }
 }
 
+/**
+ * Realiza el parseo de un comando del protocolo de comunicacion con GIft ya dividido en nombre del comando, valor y cuerpo.
+ * A partir del string se obtienen los datos del objeto que representan al comando.
+ */
 bool GIftCommand::parseString(QString name, QString value, QString body ){
     QString element;
     QString subelementName,subelementValue, subelementBody;
@@ -67,6 +89,12 @@ bool GIftCommand::parseString(QString name, QString value, QString body ){
     }
 }
 
+/**
+* Esta funcion facilita el parseo de comandos, retornando los elementos del comando.
+* Un elemento puede ser un nombre de comando, un valor (encerrado entre parentesis en el protocolo) o
+* un cuerpo de comando (encerrado entre llaves en el protocolo).
+* El elemento retornado es quitado del string de entrada.
+*/
 QString GIftCommand::getNextElement(QString &protocolString)
 {
     protocolString = protocolString.trimmed();
@@ -109,13 +137,17 @@ QString GIftCommand::getNextElement(QString &protocolString)
     return result;
 }
 
+/**
+* Retorna el tipo de elemento pasado como parametro.
+* Un elemento puede ser un nombre de comando, un valor (encerrado entre parentesis en el protocolo) o
+* un cuerpo de comando (encerrado entre llaves en el protocolo).
+* Esta funcion facilita el parseo de comandos.
+*/
 GIftCommand::ElementType GIftCommand::getElementType(QString element){
     if(element[0] == '('){
         return VALUE;
     }else if(element[0] == '{'){
         return BODY;
-    }else if(element[0] == ';'){
-        return END;
     }else{
         return NAME;
     }
