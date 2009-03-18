@@ -12,6 +12,12 @@ GIftCommand::GIftCommand()
 {
 }
 
+GIftCommand::GIftCommand(QString name, QString value)
+{
+    setName(name);
+    setValue(value);
+}
+
 /**
   Construye un objeto que representa a un comando GIft a partir de un string conteninedo el comando como lo espesifica el protocolo.
 */
@@ -87,6 +93,7 @@ bool GIftCommand::parseString(QString name, QString value, QString body ){
             return false;
         }
     }
+    return true;
 }
 
 /**
@@ -152,4 +159,43 @@ GIftCommand::ElementType GIftCommand::getElementType(QString element){
         return NAME;
     }
 
+}
+
+QString GIftCommand::getName(){
+    return name;
+}
+
+void GIftCommand::setName(QString name){
+    this->name = name;
+}
+
+QString GIftCommand::getValue(){
+    return value;
+}
+
+void GIftCommand::setValue(QString value){
+    this->value = value;
+}
+
+/*
+  Retorna la propiedad (subcomando) con el nombre correspondiente. En caso de no existir ninguna retorna NULL
+*/
+GIftCommand * GIftCommand::getProperty(QString name){
+    if(subcomands.contains(name)){
+        return subcomands[name];
+    }else{
+        return NULL;
+    }
+}
+
+void GIftCommand::setProperty(QString name, GIftCommand * value){
+    subcomands[name] = value;
+}
+
+void GIftCommand::setProperty(QString name, QString value){
+    subcomands[name] =  new GIftCommand(name,value);
+}
+
+bool GIftCommand::hasProperty(QString name){
+    return subcomands.contains(name);
 }

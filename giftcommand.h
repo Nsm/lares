@@ -7,11 +7,28 @@
 class GIftCommand : public QObject
 {
 public:
+    //Constructores
     GIftCommand();
+    GIftCommand(QString name, QString value);
     GIftCommand(QString protocolString);
     GIftCommand(QString name, QString value, QString body);
+
     bool parseString(QString protocolString);
     bool parseString(QString name, QString value, QString body );
+
+    //Getters y Setters
+    QString getName();
+    void setName(QString name);
+
+    QString getValue();
+    void setValue(QString value);
+
+    GIftCommand * getProperty(QString name);
+    void setProperty(QString name, GIftCommand * value);
+    void setProperty(QString name, QString value);
+
+    bool hasProperty(QString name);
+
 private:
     enum ElementType {NAME, VALUE, BODY};
     QHash<QString,GIftCommand*> subcomands;
