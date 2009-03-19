@@ -15,6 +15,8 @@ void GIftConnection::open(QString host, int port ){
     //por las dudas de que la conexion ya esta abierta la cerramos
     tcpSocket->abort();
     tcpSocket->connectToHost(host,port);
+    //resetea el contador de ids de eventos
+    setCurrentEventId(0);
 }
 
 /**
@@ -68,4 +70,20 @@ GIftCommand * GIftConnection::read(){
 void GIftConnection::write(GIftCommand * command){
     QString protocolString = command->toString();
     tcpSocket->write(protocolString.toLocal8Bit());
+}
+
+/**
+  Retorna un id de evento unico para la session
+  Los id se calculan sumando 1 al ultimo usado. De esta manera ningun pedido llevara el mismo id de evento
+**/
+int GIftConnection::getCurrentEventId(){
+    currentEventId ++;
+    return currentEventId;
+}
+
+/**
+  Setea el id de evento actual, el proximo id que se calcule sera el actual + 1
+**/
+void GIftConnection::setCurrentEventId(int id){
+    currentEventId = id;
 }

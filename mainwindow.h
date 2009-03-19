@@ -23,8 +23,10 @@ private:
     AresConnection *connection;
     QLabel * statusMessage;
 private slots:
-    void on_pushButton_clicked();
+    void on_pbConnect_clicked();
+    void on_leSearch_returnPressed();
     void connectionStatusChanged(AresConnection::Status newStatus);
+    void itemFinded(AresItem * item, int searchId);
 };
 
 #endif // MAINWINDOW_H

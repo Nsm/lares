@@ -18,16 +18,19 @@
     <property name="geometry">
      <rect>
       <x>-10</x>
-      <y>10</y>
+      <y>0</y>
       <width>591</width>
       <height>341</height>
      </rect>
+    </property>
+    <property name="currentIndex">
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
       <string>Conexion</string>
      </attribute>
-     <widget class="QPushButton" name="pushButton">
+     <widget class="QPushButton" name="pbConnect">
       <property name="geometry">
        <rect>
         <x>20</x>
@@ -40,37 +43,44 @@
        <string>Conectar</string>
       </property>
      </widget>
-     <widget class="QLineEdit" name="leHost">
-      <property name="geometry">
-       <rect>
-        <x>150</x>
-        <y>20</y>
-        <width>113</width>
-        <height>26</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>localhost</string>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="lePort">
-      <property name="geometry">
-       <rect>
-        <x>270</x>
-        <y>20</y>
-        <width>51</width>
-        <height>26</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>80</string>
-      </property>
-     </widget>
     </widget>
     <widget class="QWidget" name="tab_2">
      <attribute name="title">
-      <string>Tab 2</string>
+      <string>Busqueda</string>
      </attribute>
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>20</y>
+        <width>57</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Buscar:</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="leSearch">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>10</y>
+        <width>511</width>
+        <height>26</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QListWidget" name="lwSearchResult">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>50</y>
+        <width>571</width>
+        <height>251</height>
+       </rect>
+      </property>
+     </widget>
     </widget>
    </widget>
   </widget>

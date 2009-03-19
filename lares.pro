@@ -9,9 +9,11 @@ SOURCES += main.cpp \
     mainwindow.cpp \
     giftconnection.cpp \
     giftcommand.cpp \
-    aresconnection.cpp
+    aresconnection.cpp \
+    aresitem.cpp
 HEADERS += mainwindow.h \
     giftconnection.h \
     giftcommand.h \
-    aresconnection.h
+    aresconnection.h \
+    aresitem.h
 FORMS += mainwindow.ui

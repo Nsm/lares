@@ -18,6 +18,18 @@ void AresConnection::open(){
     giftConnection->write(attachCommand);
 }
 
+/**
+  Realiza una busqueda utilizando los criterios pasados como parametro y retorna el id de evento
+  que permite unir la busqueda con los resultados de la misma
+**/
+int AresConnection::search(QString query){
+    int eventId = giftConnection->getCurrentEventId();
+    GIftCommand * searchCommand = new GIftCommand("SEARCH",QString::number(eventId));
+    searchCommand->setProperty("query",query);
+    giftConnection->write(searchCommand);
+    return eventId;
+}
+
 void AresConnection::close(){
     giftConnection->close();
 }
@@ -27,6 +39,22 @@ void AresConnection::readCommand(){
     while((command = giftConnection->read())){
         if(command->getName() == "ATTACH" ){
             this->setStatus(CONNECT);
+        }else if(command->getName() == "ITEM"){
+            if(command->hasProperties()){
+                AresItem * item = new AresItem();
+                item->setUser(command->getProperty("user")->getValue());
+                item->setNode(command->getProperty("node")->getValue());
+                item->setAvailability(command->getProperty("availability")->getValue().toInt());
+                item->setSize(command->getProperty("size")->getValue().toLong());
+                item->setUrl(command->getProperty("url")->getValue());
+                item->setFileName(command->getProperty("file")->getValue());
+                item->setMimeType(command->getProperty("mime")->getValue());
+                item->setHash(command->getProperty("hash")->getValue());
+                emit itemFinded(item,command->getValue().toInt());
+            }else{
+                //un item sin contenido marca el final de una busqueda
+                emit searchFinished(command->getValue().toInt());
+            }
         }
     }
 }

@@ -200,6 +200,10 @@ bool GIftCommand::hasProperty(QString name){
     return subcommands.contains(name);
 }
 
+bool GIftCommand::hasProperties(){
+    return !subcommands.isEmpty();
+}
+
 /**
   Obtiene el string del protocolo correspondiente al objeto para poder enviarlo al servidor.
   El parametro subcommand indica si debe codificarse como comando (false) o como subcomando(true)

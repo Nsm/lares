@@ -15,11 +15,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_pushButton_clicked()
-{
-    connection->open();
-}
-
 void MainWindow::connectionStatusChanged(AresConnection::Status newStatus){
     switch(newStatus){
         case AresConnection::CONNECT:
@@ -32,4 +27,19 @@ void MainWindow::connectionStatusChanged(AresConnection::Status newStatus){
             statusMessage->setText("Desconectado");
         break;
     }
+}
+
+void MainWindow::on_leSearch_returnPressed()
+{
+    connection->search(ui->leSearch->text());
+    ui->statusBar->showMessage(tr("Buscando "));
+}
+
+void MainWindow::itemFinded(AresItem * item, int searchId){
+    ui->lwSearchResult->addItem(item->getFileName());
+}
+
+void MainWindow::on_pbConnect_clicked()
+{
+    connection->open();
 }

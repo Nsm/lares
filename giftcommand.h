@@ -29,6 +29,7 @@ public:
     void setProperty(QString name, QString value);
 
     bool hasProperty(QString name);
+    bool hasProperties();
 
 private:
     enum ElementType {NAME, VALUE, BODY};

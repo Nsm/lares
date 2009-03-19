@@ -16,10 +16,13 @@ public:
     void close();
     GIftCommand * read();
     void write(GIftCommand * command);
+    int getCurrentEventId();
 private:
+    void setCurrentEventId(int id);
     QTcpSocket *tcpSocket;
     QString buffer;
     QQueue<GIftCommand *> commandQueue;
+    int currentEventId;
 private slots:
     void readCommand();
     void connectionError(QAbstractSocket::SocketError);

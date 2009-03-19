@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include "giftconnection.h"
+#include "aresitem.h"
 
 class AresConnection : public QObject
 {
@@ -12,6 +13,7 @@ public:
     enum Status{CONNECT, CONNECTING, DISCONNECTED};
     void open();
     void close();
+    int search(QString query);
 private:
     GIftConnection * giftConnection;
     Status connectionStatus;
@@ -21,6 +23,8 @@ private slots:
     void readCommand();
 signals:
     void statusChanged(AresConnection::Status newStatus);
+    void itemFinded(AresItem * item, int searchId);
+    void searchFinished(int searchId);
 };
 
 #endif // ARESCONNECTION_H
