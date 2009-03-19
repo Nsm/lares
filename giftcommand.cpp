@@ -88,7 +88,7 @@ bool GIftCommand::parseString(QString name, QString value, QString body ){
             }else{
                 subelementBody = "";
             }
-            subcomands[subelementName] = new GIftCommand(subelementName,subelementValue,subelementBody) ;
+            subcommands[subelementName] = new GIftCommand(subelementName,subelementValue,subelementBody) ;
         }else{
             return false;
         }
@@ -181,21 +181,48 @@ void GIftCommand::setValue(QString value){
   Retorna la propiedad (subcomando) con el nombre correspondiente. En caso de no existir ninguna retorna NULL
 */
 GIftCommand * GIftCommand::getProperty(QString name){
-    if(subcomands.contains(name)){
-        return subcomands[name];
+    if(subcommands.contains(name)){
+        return subcommands[name];
     }else{
         return NULL;
     }
 }
 
 void GIftCommand::setProperty(QString name, GIftCommand * value){
-    subcomands[name] = value;
+    subcommands[name] = value;
 }
 
 void GIftCommand::setProperty(QString name, QString value){
-    subcomands[name] =  new GIftCommand(name,value);
+    subcommands[name] =  new GIftCommand(name,value);
 }
 
 bool GIftCommand::hasProperty(QString name){
-    return subcomands.contains(name);
+    return subcommands.contains(name);
+}
+
+/**
+  Obtiene el string del protocolo correspondiente al objeto para poder enviarlo al servidor.
+  El parametro subcommand indica si debe codificarse como comando (false) o como subcomando(true)
+**/
+QString GIftCommand::toString(bool subcommand){
+    QString result;
+    result = name.toUpper() + " ";
+    if(!value.isEmpty()){
+        result += "(" + value + ")";
+    }
+    if(!subcommands.isEmpty()){
+        if(subcommand){
+            result += "{";
+        }
+        foreach(GIftCommand * c, subcommands ){
+            result += c->toString(true) + " ";
+        }
+        if(subcommand){
+            result += "}";
+        }
+    }
+    if(!subcommand){
+        result += ";";
+    }
+    return result;
 }

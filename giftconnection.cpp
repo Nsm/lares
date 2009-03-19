@@ -8,16 +8,26 @@ GIftConnection::GIftConnection()
     connect(tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(connectionError(QAbstractSocket::SocketError)));
 }
 
+/**
+  Abre la conexion con el servidor
+**/
 void GIftConnection::open(QString host, int port ){
     //por las dudas de que la conexion ya esta abierta la cerramos
     tcpSocket->abort();
     tcpSocket->connectToHost(host,port);
 }
 
+/**
+  Cierra la conexion con el servidor
+**/
 void GIftConnection::close(){
     tcpSocket->close();
 }
 
+/**
+  Funcion invocada cuando llega informacion desde el servidor.
+  Se encarga de convertir los comandos a objetos GIftCommand y encolarlos en la commandQueue
+**/
 void GIftConnection::readCommand(){
     char character,prev_character = 0;
 
@@ -34,11 +44,16 @@ void GIftConnection::readCommand(){
 
 }
 
+/**
+  Funcion invocada cuando se produce un fallo en la conexion con el servidor
+**/
 void GIftConnection::connectionError(QAbstractSocket::SocketError){
     //TODO
 }
 
-
+/**
+  Retorna los comandos enviados por el servidor o NULL en el caso de que no existan comandos nuevos para leer
+**/
 GIftCommand * GIftConnection::read(){
     if(!commandQueue.isEmpty()){
         return commandQueue.dequeue();
@@ -47,6 +62,10 @@ GIftCommand * GIftConnection::read(){
     }
 }
 
+/**
+  Envia un comando al servidor de giFt
+**/
 void GIftConnection::write(GIftCommand * command){
-    //TODO
+    QString protocolString = command->toString();
+    tcpSocket->write(protocolString.toLocal8Bit());
 }

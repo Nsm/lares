@@ -15,6 +15,7 @@ public:
 
     bool parseString(QString protocolString);
     bool parseString(QString name, QString value, QString body );
+    QString toString(bool subcommand = false);
 
     //Getters y Setters
     QString getName();
@@ -31,7 +32,7 @@ public:
 
 private:
     enum ElementType {NAME, VALUE, BODY};
-    QHash<QString,GIftCommand*> subcomands;
+    QHash<QString,GIftCommand*> subcommands;
     QString name;
     QString value;
 

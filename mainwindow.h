@@ -2,7 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QtGui/QMainWindow>
-#include "giftconnection.h"
+#include <QLabel>
+#include "aresconnection.h"
 
 namespace Ui
 {
@@ -19,9 +20,11 @@ public:
 
 private:
     Ui::MainWindowClass *ui;
-    GIftConnection *connection;
+    AresConnection *connection;
+    QLabel * statusMessage;
 private slots:
     void on_pushButton_clicked();
+    void connectionStatusChanged(AresConnection::Status newStatus);
 };
 
 #endif // MAINWINDOW_H

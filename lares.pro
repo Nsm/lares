@@ -8,8 +8,10 @@ TEMPLATE = app
 SOURCES += main.cpp \
     mainwindow.cpp \
     giftconnection.cpp \
-    giftcommand.cpp
+    giftcommand.cpp \
+    aresconnection.cpp
 HEADERS += mainwindow.h \
     giftconnection.h \
-    giftcommand.h
+    giftcommand.h \
+    aresconnection.h
 FORMS += mainwindow.ui
