@@ -1,0 +1,18 @@
+#se ignoran los siguientes archivos porque son autogenerados y pueden 
+#causar problemas en maquinas diferentes. Ademas la mayoria cambian
+#cada vez que se compila el proyecto haciendo más grandes todos los 
+#commits de forma innecesaria. Por ultimo son una fuente de probables 
+#coliciones
+
+#binario generado
+lares
+
+#archivos generados en el make
+debug/*
+release/*
+Makefile*
+qtc-gdbmacros
+ui_mainwindow.h
+
+#archivo con informacion del usuario autogenerada por qt creator
+lares.pro.user
