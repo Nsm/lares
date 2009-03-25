@@ -8,6 +8,7 @@ MainWindow::MainWindow(QWidget *parent)
     connection = new AresConnection();
     ui->statusBar->addWidget(statusMessage = new QLabel(this));
     connect(connection,SIGNAL(statusChanged(AresConnection::Status )),this,SLOT(connectionStatusChanged(AresConnection::Status)));
+    connect(connection,SIGNAL(itemFinded(AresItem *, int)),this,SLOT(itemFinded(AresItem * , int )));
 }
 
 MainWindow::~MainWindow()
