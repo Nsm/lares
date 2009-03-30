@@ -4,6 +4,7 @@
 #include <QObject>
 #include "giftconnection.h"
 #include "aresitem.h"
+#include "aresdownloadrequest.h"
 
 class AresConnection : public QObject
 {
@@ -14,6 +15,8 @@ public:
     void open();
     void close();
     int search(QString query);
+    void download(AresDownloadRequest request);
+
 private:
     GIftConnection * giftConnection;
     Status connectionStatus;
