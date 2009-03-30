@@ -12,7 +12,7 @@ debug/*
 release/*
 Makefile*
 qtc-gdbmacros
-ui_mainwindow.h
+ui_*.h
 
 #archivo con informacion del usuario autogenerada por qt creator
 lares.pro.user

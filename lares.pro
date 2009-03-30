@@ -10,10 +10,13 @@ SOURCES += main.cpp \
     giftconnection.cpp \
     giftcommand.cpp \
     aresconnection.cpp \
-    aresitem.cpp
+    aresitem.cpp \
+    aressearchwidget.cpp
 HEADERS += mainwindow.h \
     giftconnection.h \
     giftcommand.h \
     aresconnection.h \
-    aresitem.h
-FORMS += mainwindow.ui
+    aresitem.h \
+    aressearchwidget.h
+FORMS += mainwindow.ui \
+    aressearchwidget.ui

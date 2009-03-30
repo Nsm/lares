@@ -4,7 +4,7 @@
 #include <QtGui/QMainWindow>
 #include <QLabel>
 #include "aresconnection.h"
-
+#include "aressearchwidget.h"
 namespace Ui
 {
     class MainWindowClass;
@@ -22,6 +22,7 @@ private:
     Ui::MainWindowClass *ui;
     AresConnection *connection;
     QLabel * statusMessage;
+    AresSearchWidget * searchWidget;
 private slots:
     void on_pbConnect_clicked();
     void on_leSearch_returnPressed();

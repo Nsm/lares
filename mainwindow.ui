@@ -60,7 +60,7 @@
            </layout>
           </item>
           <item>
-           <widget class="QTabWidget" name="tabWidget_2">
+           <widget class="QTabWidget" name="tabSearchResult">
             <property name="tabPosition">
              <enum>QTabWidget::West</enum>
             </property>
@@ -77,11 +77,7 @@
              <attribute name="title">
               <string>Resultado</string>
              </attribute>
-             <layout class="QGridLayout" name="gridLayout_3">
-              <item row="0" column="0">
-               <widget class="QListWidget" name="lwSearchResult"/>
-              </item>
-             </layout>
+             <layout class="QGridLayout" name="gridLayout_3"/>
             </widget>
            </widget>
           </item>
