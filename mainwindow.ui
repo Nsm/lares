@@ -16,11 +16,11 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
-     <widget class="QTabWidget" name="tabWidget">
+     <widget class="QTabWidget" name="tabMain">
       <property name="currentIndex">
        <number>1</number>
       </property>
-      <widget class="QWidget" name="tab">
+      <widget class="QWidget" name="tabConnection">
        <attribute name="title">
         <string>Conexion</string>
        </attribute>
@@ -38,7 +38,7 @@
         </property>
        </widget>
       </widget>
-      <widget class="QWidget" name="tab_2">
+      <widget class="QWidget" name="tabSearch">
        <attribute name="title">
         <string>Busqueda</string>
        </attribute>
@@ -59,28 +59,6 @@
             </item>
            </layout>
           </item>
-          <item>
-           <widget class="QTabWidget" name="tabSearchResult">
-            <property name="tabPosition">
-             <enum>QTabWidget::West</enum>
-            </property>
-            <property name="tabShape">
-             <enum>QTabWidget::Triangular</enum>
-            </property>
-            <property name="currentIndex">
-             <number>0</number>
-            </property>
-            <property name="elideMode">
-             <enum>Qt::ElideNone</enum>
-            </property>
-            <widget class="QWidget" name="tab_5">
-             <attribute name="title">
-              <string>Resultado</string>
-             </attribute>
-             <layout class="QGridLayout" name="gridLayout_3"/>
-            </widget>
-           </widget>
-          </item>
          </layout>
         </item>
        </layout>
@@ -95,7 +73,7 @@
      <x>0</x>
      <y>0</y>
      <width>568</width>
-     <height>24</height>
+     <height>23</height>
     </rect>
    </property>
   </widget>

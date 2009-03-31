@@ -7,7 +7,11 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     connection = new AresConnection();
     ui->statusBar->addWidget(statusMessage = new QLabel(this));
-    searchWidget = NULL;
+
+    searchWidget = new AresSearchWidget();
+    ui->tabSearch->layout()->addWidget(searchWidget);
+    searchWidget->setVisible(true);
+
     connect(connection,SIGNAL(statusChanged(AresConnection::Status )),this,SLOT(connectionStatusChanged(AresConnection::Status)));
     connect(connection,SIGNAL(itemFinded(AresItem *, int)),this,SLOT(itemFinded(AresItem * , int )));
 }
@@ -33,17 +37,12 @@ void MainWindow::connectionStatusChanged(AresConnection::Status newStatus){
 
 void MainWindow::on_leSearch_returnPressed()
 {
-    if(searchWidget != NULL){
-        delete searchWidget;
-    }
-    searchWidget = new AresSearchWidget(ui->tabSearchResult);
-    searchWidget->setVisible(true);
-    connection->search(ui->leSearch->text());
+    searchWidget->addSearch(connection->search(ui->leSearch->text()),ui->leSearch->text());
     ui->statusBar->showMessage(tr("Buscando "));
 }
 
 void MainWindow::itemFinded(AresItem * item, int searchId){
-    searchWidget->addItem(item);
+    searchWidget->addItem(item,searchId);
 }
 
 void MainWindow::on_pbConnect_clicked()

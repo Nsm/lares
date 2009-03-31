@@ -18,7 +18,7 @@
   </property>
   <property name="maximumSize">
    <size>
-    <width>400</width>
+    <width>16777215</width>
     <height>16777215</height>
    </size>
   </property>
@@ -29,28 +29,6 @@
    <property name="margin">
     <number>0</number>
    </property>
-   <item row="0" column="0">
-    <widget class="QTreeWidget" name="twSearch">
-     <property name="sortingEnabled">
-      <bool>true</bool>
-     </property>
-     <column>
-      <property name="text">
-       <string>Nombre</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>tamaño</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>fuentes</string>
-      </property>
-     </column>
-    </widget>
-   </item>
   </layout>
  </widget>
  <resources/>
