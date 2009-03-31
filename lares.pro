@@ -1,5 +1,5 @@
 # -------------------------------------------------
-# Project created by QtCreator 2009-03-12T20:36:35
+# Project created by QtCreator 2009-03-31T15:04:47
 # -------------------------------------------------
 QT += network \
     phonon
@@ -9,16 +9,18 @@ SOURCES += main.cpp \
     mainwindow.cpp \
     giftconnection.cpp \
     giftcommand.cpp \
-    aresconnection.cpp \
-    aresitem.cpp \
     aressearchwidget.cpp \
-    aresdownloadrequest.cpp
+    aresitem.cpp \
+    aresdownloadrequest.cpp \
+    aresconnection.cpp \
+    aressearchwidgetitem.cpp
 HEADERS += mainwindow.h \
     giftconnection.h \
     giftcommand.h \
-    aresconnection.h \
-    aresitem.h \
     aressearchwidget.h \
-    aresdownloadrequest.h
+    aresitem.h \
+    aresdownloadrequest.h \
+    aresconnection.h \
+    aressearchwidgetitem.h
 FORMS += mainwindow.ui \
     aressearchwidget.ui

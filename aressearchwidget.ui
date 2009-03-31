@@ -29,6 +29,31 @@
    <property name="margin">
     <number>0</number>
    </property>
+   <item row="0" column="0">
+    <widget class="QTreeWidget" name="twSearch">
+     <property name="sortingEnabled">
+      <bool>true</bool>
+     </property>
+     <property name="columnCount">
+      <number>3</number>
+     </property>
+     <column>
+      <property name="text">
+       <string>Nombre</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Tamaño</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Fuentes</string>
+      </property>
+     </column>
+    </widget>
+   </item>
   </layout>
  </widget>
  <resources/>

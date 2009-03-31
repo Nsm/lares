@@ -6,9 +6,6 @@ AresSearchWidget::AresSearchWidget(QWidget *parent) :
     m_ui(new Ui::AresSearchWidget)
 {
     m_ui->setupUi(this);
-    tabSearch = new QTabWidget();
-    tabSearch->setVisible(true);
-    layout()->addWidget(tabSearch);
 }
 
 AresSearchWidget::~AresSearchWidget()
@@ -27,11 +24,13 @@ void AresSearchWidget::changeEvent(QEvent *e)
     }
 }
 
-void AresSearchWidget::addItem(AresItem * item, int searchId){
-
-    //TODO
+void AresSearchWidget::addItem(AresItem * item){
+    if(! itemsHash.contains(item->getHash()) ){
+        itemsHash[item->getHash()] = new AresSearchWidgetItem(m_ui->twSearch);
+    }
+    itemsHash[item->getHash()]->addAresItem(item);
 }
 
-void AresSearchWidget::addSearch(int searchId,QString searchTitle){
-    tabSearch->addTab(new QTreeWidget(),searchTitle);
+void AresSearchWidget::clear(){
+    m_ui->twSearch->clear();
 }

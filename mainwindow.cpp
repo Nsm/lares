@@ -37,12 +37,13 @@ void MainWindow::connectionStatusChanged(AresConnection::Status newStatus){
 
 void MainWindow::on_leSearch_returnPressed()
 {
-    searchWidget->addSearch(connection->search(ui->leSearch->text()),ui->leSearch->text());
+    connection->search(ui->leSearch->text());
+    searchWidget->clear();
     ui->statusBar->showMessage(tr("Buscando "));
 }
 
 void MainWindow::itemFinded(AresItem * item, int searchId){
-    searchWidget->addItem(item,searchId);
+    searchWidget->addItem(item);
 }
 
 void MainWindow::on_pbConnect_clicked()
