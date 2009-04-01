@@ -13,7 +13,8 @@ SOURCES += main.cpp \
     aresitem.cpp \
     aresdownloadrequest.cpp \
     aresconnection.cpp \
-    aressearchwidgetitem.cpp
+    aressearchwidgetitem.cpp \
+    aresdownload.cpp
 HEADERS += mainwindow.h \
     giftconnection.h \
     giftcommand.h \
@@ -21,6 +22,7 @@ HEADERS += mainwindow.h \
     aresitem.h \
     aresdownloadrequest.h \
     aresconnection.h \
-    aressearchwidgetitem.h
+    aressearchwidgetitem.h \
+    aresdownload.h
 FORMS += mainwindow.ui \
     aressearchwidget.ui
