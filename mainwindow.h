@@ -5,6 +5,7 @@
 #include <QLabel>
 #include "aresconnection.h"
 #include "aressearchwidget.h"
+#include "aresdownloadrequest.h"
 namespace Ui
 {
     class MainWindowClass;
@@ -28,6 +29,8 @@ private slots:
     void on_leSearch_returnPressed();
     void connectionStatusChanged(AresConnection::Status newStatus);
     void itemFinded(AresItem * item, int searchId);
+public slots:
+    void startDownload(AresDownloadRequest * download);
 };
 
 #endif // MAINWINDOW_H

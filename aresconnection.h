@@ -15,7 +15,7 @@ public:
     void open();
     void close();
     int search(QString query);
-    void download(AresDownloadRequest request);
+    void download(AresDownloadRequest *request);
 
 private:
     GIftConnection * giftConnection;

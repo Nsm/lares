@@ -70,14 +70,14 @@ AresConnection::Status AresConnection::getStatus(){
     return connectionStatus;
 }
 
-void AresConnection::download(AresDownloadRequest request){
-    foreach(AresDownloadRequest::Source source,*request.getSources()){
+void AresConnection::download(AresDownloadRequest * request){
+    foreach(AresDownloadRequest::Source source,*request->getSources()){
         GIftCommand * addSourceCommand = new GIftCommand("ADDSOURCE","");
         addSourceCommand->setProperty("url",source.url);
         addSourceCommand->setProperty("user",source.user);
-        addSourceCommand->setProperty("hash",request.getHash());
-        addSourceCommand->setProperty("size",QString::number(request.getSize()));
-        addSourceCommand->setProperty("save",request.getFileName());
+        addSourceCommand->setProperty("hash",request->getHash());
+        addSourceCommand->setProperty("size",QString::number(request->getSize()));
+        addSourceCommand->setProperty("save",request->getFileName());
         giftConnection->write(addSourceCommand);
         delete addSourceCommand;
     }

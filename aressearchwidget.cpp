@@ -34,3 +34,9 @@ void AresSearchWidget::addItem(AresItem * item){
 void AresSearchWidget::clear(){
     m_ui->twSearch->clear();
 }
+
+void AresSearchWidget::on_twSearch_itemDoubleClicked(QTreeWidgetItem* item, int column)
+{
+    AresSearchWidgetItem * clickedItem = (AresSearchWidgetItem * ) item;
+    emit downloadRequested(clickedItem->getDownloadRequest());
+}

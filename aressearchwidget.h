@@ -26,6 +26,11 @@ protected:
 private:
     Ui::AresSearchWidget *m_ui;
     QHash<QString, AresSearchWidgetItem *> itemsHash;
+
+private slots:
+    void on_twSearch_itemDoubleClicked(QTreeWidgetItem* item, int column);
+signals:
+    void downloadRequested(AresDownloadRequest * download);
 };
 
 #endif // ARESSEARCHWIDGET_H

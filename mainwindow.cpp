@@ -14,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(connection,SIGNAL(statusChanged(AresConnection::Status )),this,SLOT(connectionStatusChanged(AresConnection::Status)));
     connect(connection,SIGNAL(itemFinded(AresItem *, int)),this,SLOT(itemFinded(AresItem * , int )));
+    connect(searchWidget,SIGNAL(downloadRequested(AresDownloadRequest*)),this,SLOT(startDownload(AresDownloadRequest *)));
 }
 
 MainWindow::~MainWindow()
@@ -39,7 +40,7 @@ void MainWindow::on_leSearch_returnPressed()
 {
     connection->search(ui->leSearch->text());
     searchWidget->clear();
-    ui->statusBar->showMessage(tr("Buscando "));
+    ui->statusBar->showMessage(tr("Buscando "),1000);
 }
 
 void MainWindow::itemFinded(AresItem * item, int searchId){
@@ -49,4 +50,10 @@ void MainWindow::itemFinded(AresItem * item, int searchId){
 void MainWindow::on_pbConnect_clicked()
 {
     connection->open();
+}
+
+void MainWindow::startDownload(AresDownloadRequest * download){
+    ui->statusBar->showMessage(tr("Descargando %1 "),1000);
+    connection->download(download);
+    delete download;
 }
