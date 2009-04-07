@@ -57,6 +57,41 @@ void AresConnection::readCommand(){
                 //un item sin contenido marca el final de una busqueda
                 emit searchFinished(command->getValue().toInt());
             }
+        }else if(command->getName() == "ADDDOWNLOAD"){
+            AresDownload * download = new AresDownload();
+            download->setId(command->getValue().toInt());
+            download->setSize(command->getProperty("size")->getValue().toLong());
+            download->setFileName(command->getProperty("file")->getValue());
+            download->setHash(command->getProperty("hash")->getValue());
+            download->setTransmit(command->getProperty("transmit")->getValue().toLong());
+            QString state = command->getProperty("state")->getValue().toLower();
+            if(state == "active"){
+                download->setState(AresDownload::ACTIVE);
+            }else if(state == "completed"){
+                download->setState(AresDownload::COMPLETED);
+            }else if(state == "paused"){
+                download->setState(AresDownload::PAUSED);
+            }
+            emit downloadStarted(download);
+        }else if(command->getName() == "CHGDOWNLOAD"){
+            AresDownloadUpdate * download = new AresDownloadUpdate();
+            download->setId(command->getValue().toInt());
+            download->setSize(command->getProperty("size")->getValue().toLong());
+            download->setFileName(command->getProperty("file")->getValue());
+            download->setHash(command->getProperty("hash")->getValue());
+            download->setTransmit(command->getProperty("transmit")->getValue().toLong());
+            QString state = command->getProperty("state")->getValue().toLower();
+            if(state == "active"){
+                download->setState(AresDownload::ACTIVE);
+            }else if(state == "completed"){
+                download->setState(AresDownload::COMPLETED);
+            }else if(state == "paused"){
+                download->setState(AresDownload::PAUSED);
+            }
+            download->setThroughput(command->getProperty("throughput")->getValue().toLong());
+            download->setElapsed(command->getProperty("elapsed")->getValue().toLong());
+
+            emit downloadChanged(download);
         }
     }
 }

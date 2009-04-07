@@ -18,7 +18,7 @@
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabMain">
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tabConnection">
        <attribute name="title">
@@ -63,6 +63,46 @@
         </item>
        </layout>
       </widget>
+      <widget class="QWidget" name="tabDownload">
+       <attribute name="title">
+        <string>Descargas</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_3">
+        <item row="0" column="0">
+         <widget class="QTreeWidget" name="twDownloads">
+          <property name="sortingEnabled">
+           <bool>true</bool>
+          </property>
+          <property name="columnCount">
+           <number>4</number>
+          </property>
+          <attribute name="headerDefaultSectionSize">
+           <number>100</number>
+          </attribute>
+          <column>
+           <property name="text">
+            <string notr="true">Nombre</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string notr="true">Tamaño</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string notr="true">Descargado</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string notr="true">Porcentaje</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </item>
    </layout>
@@ -73,7 +113,7 @@
      <x>0</x>
      <y>0</y>
      <width>568</width>
-     <height>23</height>
+     <height>24</height>
     </rect>
    </property>
   </widget>

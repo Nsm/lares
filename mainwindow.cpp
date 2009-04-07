@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(connection,SIGNAL(statusChanged(AresConnection::Status )),this,SLOT(connectionStatusChanged(AresConnection::Status)));
     connect(connection,SIGNAL(itemFinded(AresItem *, int)),this,SLOT(itemFinded(AresItem * , int )));
     connect(searchWidget,SIGNAL(downloadRequested(AresDownloadRequest*)),this,SLOT(startDownload(AresDownloadRequest *)));
+    connect(connection,SIGNAL(downloadStarted(AresDownload*)),this,SLOT(downloadStarted(AresDownload*)));
 }
 
 MainWindow::~MainWindow()
@@ -40,7 +41,7 @@ void MainWindow::on_leSearch_returnPressed()
 {
     connection->search(ui->leSearch->text());
     searchWidget->clear();
-    ui->statusBar->showMessage(tr("Buscando "),1000);
+    ui->statusBar->showMessage(tr("Buscando %1").arg(ui->leSearch->text()),2000);
 }
 
 void MainWindow::itemFinded(AresItem * item, int searchId){
@@ -53,7 +54,15 @@ void MainWindow::on_pbConnect_clicked()
 }
 
 void MainWindow::startDownload(AresDownloadRequest * download){
-    ui->statusBar->showMessage(tr("Descargando %1 "),1000);
+    ui->statusBar->showMessage(tr("Descargando %1 ").arg(download->getFileName()),2000);
     connection->download(download);
     delete download;
+}
+
+void MainWindow::downloadStarted(AresDownload * download){
+    QTreeWidgetItem * newItem = new QTreeWidgetItem(ui->twDownloads);
+    newItem->setText(0,download->getFileName());
+    newItem->setText(1,QString::number(qRound(download->getSize() / 1024)) + "Kb");
+    newItem->setText(2,QString::number(qRound(download->getTransmit() / 1024)) + "Kb");
+    newItem->setText(3,QString::number(download->getTransmit() * 100 / download->getSize()) + "%");
 }

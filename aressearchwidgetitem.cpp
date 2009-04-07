@@ -17,7 +17,7 @@ void AresSearchWidgetItem::addAresItem(AresItem * item){
         * del elemento del listado con los datos de este primer item
         */
         this->setText(0,item->getFileName());
-        this->setText(1,QString::number(qRound(item->getSize() / 1000)) + " Kb");
+        this->setText(1,QString::number(qRound(item->getSize() / 1024)) + " Kb");
     }
 
     aresItems.append(item);

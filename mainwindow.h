@@ -31,6 +31,7 @@ private slots:
     void itemFinded(AresItem * item, int searchId);
 public slots:
     void startDownload(AresDownloadRequest * download);
+    void downloadStarted(AresDownload * download);
 };
 
 #endif // MAINWINDOW_H

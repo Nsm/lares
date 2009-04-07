@@ -4,6 +4,19 @@ AresDownload::AresDownload()
 {
 }
 
+AresDownload::AresDownload(int id)
+{
+    setId(id);
+}
+
+void AresDownload::setId(int id){
+    this->id = id;
+}
+
+int AresDownload::getId(){
+    return id;
+}
+
 void AresDownload::setFileName(QString fileName){
     this->fileName = fileName;
 }

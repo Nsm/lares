@@ -5,6 +5,8 @@
 #include "giftconnection.h"
 #include "aresitem.h"
 #include "aresdownloadrequest.h"
+#include "aresdownload.h"
+#include "aresdownloadupdate.h"
 
 class AresConnection : public QObject
 {
@@ -28,6 +30,8 @@ signals:
     void statusChanged(AresConnection::Status newStatus);
     void itemFinded(AresItem * item, int searchId);
     void searchFinished(int searchId);
+    void downloadStarted(AresDownload * download);
+    void downloadChanged(AresDownloadUpdate * download);
 };
 
 #endif // ARESCONNECTION_H
