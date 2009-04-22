@@ -2,7 +2,7 @@
 #define ARESDOWNLOADWIDGET_H
 
 #include <QtGui/QWidget>
-#include "aresdownload.h";
+#include "aresdownload.h"
 #include <QTreeWidgetItem>
 #include <QHash>
 

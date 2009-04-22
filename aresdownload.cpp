@@ -67,7 +67,9 @@ bool AresDownload::isShared(){
 
 void AresDownload::addSpeedStat(long time, long size){
     //se calcula la velocidad instantanea en bytes/segundo
-    //instantSpeed = size / (time * 1000);
+    if(time){
+        instantSpeed = size / (time * 1000);
+    }
 }
 
 //retorna la velocidad instantanea de bajada en bytes/segundos

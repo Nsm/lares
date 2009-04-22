@@ -50,7 +50,7 @@ bool GIftCommand::parseString(QString protocolString){
     }
     //el valor es opcional
     if(getElementType(element =getNextElement(protocolString)) == VALUE){
-        value = element;
+        value = element.mid(1,element.size() -2);
         element =getNextElement(protocolString);
     }
     if(protocolString.right(1) == ";"){

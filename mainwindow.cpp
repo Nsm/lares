@@ -20,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(connection,SIGNAL(itemFinded(AresItem *, int)),this,SLOT(itemFinded(AresItem * , int )));
     connect(searchWidget,SIGNAL(downloadRequested(AresDownloadRequest*)),this,SLOT(startDownload(AresDownloadRequest *)));
     connect(connection,SIGNAL(downloadStarted(AresDownload*)),this,SLOT(downloadStarted(AresDownload*)));
+    connect(connection,SIGNAL(downloadChanged(AresDownload*)),downloadWidget,SLOT(updateDownload(AresDownload*)));
 }
 
 MainWindow::~MainWindow()
