@@ -18,7 +18,6 @@ class AresSearchWidget : public QWidget {
 public:
     explicit AresSearchWidget(QWidget *parent = 0);
     virtual ~AresSearchWidget();
-    void addItem(AresItem * item);
     void clear();
 protected:
     virtual void changeEvent(QEvent *e);
@@ -31,6 +30,10 @@ private slots:
     void on_twSearch_itemDoubleClicked(QTreeWidgetItem* item, int column);
 signals:
     void downloadRequested(AresDownloadRequest * download);
+
+public slots:
+    void addItem(AresItem * item);
+
 };
 
 #endif // ARESSEARCHWIDGET_H

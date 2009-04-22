@@ -58,41 +58,48 @@ void AresConnection::readCommand(){
                 emit searchFinished(command->getValue().toInt());
             }
         }else if(command->getName() == "ADDDOWNLOAD"){
-            AresDownload * download = new AresDownload();
-            download->setId(command->getValue().toInt());
-            download->setSize(command->getProperty("size")->getValue().toLong());
-            download->setFileName(command->getProperty("file")->getValue());
-            download->setHash(command->getProperty("hash")->getValue());
-            download->setTransmit(command->getProperty("transmit")->getValue().toLong());
-            QString state = command->getProperty("state")->getValue().toLower();
-            if(state == "active"){
-                download->setState(AresDownload::ACTIVE);
-            }else if(state == "completed"){
-                download->setState(AresDownload::COMPLETED);
-            }else if(state == "paused"){
-                download->setState(AresDownload::PAUSED);
-            }
-            emit downloadStarted(download);
+            newDownload(command);
         }else if(command->getName() == "CHGDOWNLOAD"){
-            AresDownloadUpdate * download = new AresDownloadUpdate();
-            download->setId(command->getValue().toInt());
-            download->setSize(command->getProperty("size")->getValue().toLong());
-            download->setFileName(command->getProperty("file")->getValue());
-            download->setHash(command->getProperty("hash")->getValue());
-            download->setTransmit(command->getProperty("transmit")->getValue().toLong());
-            QString state = command->getProperty("state")->getValue().toLower();
-            if(state == "active"){
-                download->setState(AresDownload::ACTIVE);
-            }else if(state == "completed"){
-                download->setState(AresDownload::COMPLETED);
-            }else if(state == "paused"){
-                download->setState(AresDownload::PAUSED);
-            }
-            download->setThroughput(command->getProperty("throughput")->getValue().toLong());
-            download->setElapsed(command->getProperty("elapsed")->getValue().toLong());
-
-            emit downloadChanged(download);
+            updateDownload(command);
         }
+    }
+}
+
+void AresConnection::newDownload(GIftCommand * command){
+    AresDownload * download = new AresDownload();
+    download->setId(command->getValue().toInt());
+    download->setSize(command->getProperty("size")->getValue().toLong());
+    download->setFileName(command->getProperty("file")->getValue());
+    download->setHash(command->getProperty("hash")->getValue());
+    download->setTransmit(command->getProperty("transmit")->getValue().toLong());
+    QString state = command->getProperty("state")->getValue().toLower();
+    if(state == "active"){
+        download->setState(AresDownload::ACTIVE);
+    }else if(state == "completed"){
+        download->setState(AresDownload::COMPLETED);
+    }else if(state == "paused"){
+        download->setState(AresDownload::PAUSED);
+    }
+    downloads.insert(download->getId(),download);
+    emit downloadStarted(download);
+}
+
+void AresConnection::updateDownload(GIftCommand * command){
+    int downloadId = command->getValue().toInt();
+    //chequeamos si existe la descarga a la cual se refiere la actualizacion. (se supone que tiene que existir)
+    if(downloads.contains(downloadId)){
+        AresDownload * download = downloads[downloadId];
+        download->setTransmit(command->getProperty("transmit")->getValue().toLong());
+        QString state = command->getProperty("state")->getValue().toLower();
+        if(state == "active"){
+            download->setState(AresDownload::ACTIVE);
+        }else if(state == "completed"){
+            download->setState(AresDownload::COMPLETED);
+        }else if(state == "paused"){
+            download->setState(AresDownload::PAUSED);
+        }
+        download->addSpeedStat(command->getProperty("elapsed")->getValue().toLong(),command->getProperty("throughput")->getValue().toLong());
+        emit downloadChanged(download);
     }
 }
 

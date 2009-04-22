@@ -6,7 +6,6 @@
 #include "aresitem.h"
 #include "aresdownloadrequest.h"
 #include "aresdownload.h"
-#include "aresdownloadupdate.h"
 
 class AresConnection : public QObject
 {
@@ -24,6 +23,10 @@ private:
     Status connectionStatus;
     void setStatus(Status status);
     Status getStatus();
+    void newDownload(GIftCommand * command);
+    void updateDownload(GIftCommand * command);
+    //lista (hash) de descargas actuales:
+    QHash<int,AresDownload *> downloads;
 private slots:
     void readCommand();
 signals:
@@ -31,7 +34,7 @@ signals:
     void itemFinded(AresItem * item, int searchId);
     void searchFinished(int searchId);
     void downloadStarted(AresDownload * download);
-    void downloadChanged(AresDownloadUpdate * download);
+    void downloadChanged(AresDownload * download);
 };
 
 #endif // ARESCONNECTION_H

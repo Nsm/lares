@@ -29,7 +29,11 @@ public:
     void setState(State state);
     void setShared(bool shared);
     void setId(int id);
+    //agregar estadisticas de descarga, ingresa datos en cuanto a descarga/tiempo para poder calcular la velocidad de descarga()
+    void addSpeedStat(long time, long size);
 
+    //retorna la velocidad instantanea de bajada en bytes/segundos
+    long getInstantSpeed();
     QString getFileName();
     QString getHash();
     long getSize();
@@ -46,6 +50,8 @@ private:
     QString hash;
     State state;
     bool shared;
+    //velocidad instantanea de bajada en bytes/segundo
+    long instantSpeed;
 };
 
 #endif // ARESDOWNLOAD_H

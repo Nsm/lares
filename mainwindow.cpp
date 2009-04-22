@@ -12,6 +12,10 @@ MainWindow::MainWindow(QWidget *parent)
     ui->tabSearch->layout()->addWidget(searchWidget);
     searchWidget->setVisible(true);
 
+    downloadWidget = new AresDownloadWidget();
+    ui->tabDownload->layout()->addWidget(downloadWidget);
+    downloadWidget->setVisible(true);
+
     connect(connection,SIGNAL(statusChanged(AresConnection::Status )),this,SLOT(connectionStatusChanged(AresConnection::Status)));
     connect(connection,SIGNAL(itemFinded(AresItem *, int)),this,SLOT(itemFinded(AresItem * , int )));
     connect(searchWidget,SIGNAL(downloadRequested(AresDownloadRequest*)),this,SLOT(startDownload(AresDownloadRequest *)));
@@ -60,9 +64,5 @@ void MainWindow::startDownload(AresDownloadRequest * download){
 }
 
 void MainWindow::downloadStarted(AresDownload * download){
-    QTreeWidgetItem * newItem = new QTreeWidgetItem(ui->twDownloads);
-    newItem->setText(0,download->getFileName());
-    newItem->setText(1,QString::number(qRound(download->getSize() / 1024)) + "Kb");
-    newItem->setText(2,QString::number(qRound(download->getTransmit() / 1024)) + "Kb");
-    newItem->setText(3,QString::number(download->getTransmit() * 100 / download->getSize()) + "%");
+    downloadWidget->addDownload(download);
 }

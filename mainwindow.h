@@ -5,6 +5,7 @@
 #include <QLabel>
 #include "aresconnection.h"
 #include "aressearchwidget.h"
+#include "aresdownloadwidget.h"
 #include "aresdownloadrequest.h"
 namespace Ui
 {
@@ -24,6 +25,7 @@ private:
     AresConnection *connection;
     QLabel * statusMessage;
     AresSearchWidget * searchWidget;
+    AresDownloadWidget * downloadWidget;
 private slots:
     void on_pbConnect_clicked();
     void on_leSearch_returnPressed();
