@@ -3,6 +3,8 @@
 
 #include <QtGui/QMainWindow>
 #include <QLabel>
+#include <QTabWidget>
+#include <QHash>
 #include "aresconnection.h"
 #include "aressearchwidget.h"
 #include "aresdownloadwidget.h"
@@ -24,7 +26,8 @@ private:
     Ui::MainWindowClass *ui;
     AresConnection *connection;
     QLabel * statusMessage;
-    AresSearchWidget * searchWidget;
+    QTabWidget * tabSearchResult;
+    QHash<int,AresSearchWidget *> searchWidgets;
     AresDownloadWidget * downloadWidget;
 private slots:
     void on_pbConnect_clicked();
