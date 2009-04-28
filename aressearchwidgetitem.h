@@ -13,6 +13,8 @@ public:
     void addAresItem(AresItem * item);
     AresDownloadRequest * getDownloadRequest();
 private:
+    //se redefine la operacion < para modificar la forma en que se ordenan los items
+    bool operator<(const QTreeWidgetItem &other)const;
     QList<AresItem *> aresItems;
 };
 

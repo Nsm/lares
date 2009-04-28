@@ -42,3 +42,12 @@ AresDownloadRequest * AresSearchWidgetItem::getDownloadRequest(){
     }
     return request;
 }
+
+bool AresSearchWidgetItem::operator<(const QTreeWidgetItem &other)const{
+    int column = treeWidget()->sortColumn();
+    if( column == 2){
+        return data(column,Qt::DisplayRole).toInt() < other.data(column,Qt::DisplayRole).toInt();
+    }else{
+        QTreeWidgetItem::operator <(other);
+    }
+}
