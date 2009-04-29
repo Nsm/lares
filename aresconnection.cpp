@@ -124,3 +124,10 @@ void AresConnection::download(AresDownloadRequest * request){
         delete addSourceCommand;
     }
 }
+
+void AresConnection::cancelDownload(int downloadId){
+    GIftCommand * cancelCommand = new GIftCommand("TRANSFER",QString::number(downloadId));
+    cancelCommand->setProperty("action","cancel");
+    giftConnection->write(cancelCommand);
+    delete cancelCommand;
+}

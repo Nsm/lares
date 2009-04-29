@@ -5,7 +5,9 @@
 #include "aresdownload.h"
 #include <QTreeWidgetItem>
 #include <QHash>
+#include <QMenu>
 #include "aresdownloadwidgetdelegate.h"
+#include "aresdownloadwidgetitem.h"
 
 namespace Ui {
     class AresDownloadWidget;
@@ -17,18 +19,24 @@ class AresDownloadWidget : public QWidget {
 public:
     explicit AresDownloadWidget(QWidget *parent = 0);
     virtual ~AresDownloadWidget();
-
 protected:
     virtual void changeEvent(QEvent *e);
-
 private:
     Ui::AresDownloadWidget *m_ui;
     //hash que contiene todos los items relacionados con el identificador de la descarga asociada
-    QHash<int, QTreeWidgetItem *> itemsHash;
+    QHash<int, AresDownloadWidgetItem *> itemsHash;
 
 public slots:
     void addDownload(AresDownload *download);
     void updateDownload(AresDownload *download);
+protected slots:
+    void showContextMenu( const QPoint & pos );
+
+private slots:
+    void on_actionCancel_triggered();
+
+signals:
+    void downloadCancelled(int downloadId);
 };
 
 #endif // ARESDOWNLOADWIDGET_H

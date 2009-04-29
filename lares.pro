@@ -27,7 +27,8 @@ HEADERS += mainwindow.h \
     aressearchwidgetitem.h \
     aresdownload.h \
     aresdownloadwidget.h \
-    aresdownloadwidgetdelegate.h
+    aresdownloadwidgetdelegate.h \
+    aresdownloadwidgetitem.h
 FORMS += mainwindow.ui \
     aressearchwidget.ui \
     aresdownloadwidget.ui

@@ -48,6 +48,24 @@
     </widget>
    </item>
   </layout>
+  <action name="actionCancel">
+   <property name="text">
+    <string>Cancelar</string>
+   </property>
+   <property name="toolTip">
+    <string>Cancelar la descarga</string>
+   </property>
+  </action>
+  <action name="actionPause">
+   <property name="text">
+    <string>Pausar</string>
+   </property>
+  </action>
+  <action name="actionResume">
+   <property name="text">
+    <string>Reanudar</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

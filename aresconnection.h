@@ -17,7 +17,8 @@ public:
     void close();
     int search(QString query);
     void download(AresDownloadRequest *request);
-
+public slots:
+    void cancelDownload(int downloadId);
 private:
     GIftConnection * giftConnection;
     Status connectionStatus;
