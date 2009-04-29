@@ -24,7 +24,8 @@ void AresDownloadWidgetDelegate::paint(QPainter *painter, const QStyleOptionView
     progressBarOption.textVisible = true;
 
     // Set the progress and text values of the style option.
-    int progress = index.model()->data(index, Qt::DisplayRole).toInt();
+    QVariant value = index.data(Qt::DisplayRole);
+    int progress = value.toInt();
     progressBarOption.progress = progress < 0 ? 0 : progress;
     progressBarOption.text = QString().sprintf("%d%%", progressBarOption.progress);
 

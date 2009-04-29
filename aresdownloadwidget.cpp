@@ -30,7 +30,11 @@ void AresDownloadWidget::addDownload(AresDownload *download){
     newItem->setText(0,download->getFileName());
     newItem->setText(1,QString::number(qRound(download->getSize() / 1024)) + "Kb");
     newItem->setText(2,QString::number(qRound(download->getTransmit() / 1024)) + "Kb");
-    newItem->setText(3,QString::number(download->getTransmit() * 100 / download->getSize()) + "%");
+    int percentage = 100;
+    if(download->getSize()){
+        percentage = download->getTransmit() * 100 / download->getSize();
+    }
+    newItem->setData(3,Qt::DisplayRole, percentage);
     itemsHash.insert(download->getId(),newItem);
 }
 
@@ -38,6 +42,10 @@ void AresDownloadWidget::updateDownload(AresDownload *download){
     if(itemsHash.contains(download->getId())){
         QTreeWidgetItem * itemToUpdate = itemsHash[download->getId()];
         itemToUpdate->setText(2,QString::number(qRound(download->getTransmit() / 1024)) + "Kb");
-        itemToUpdate->setText(3,QString::number(download->getTransmit() * 100 / download->getSize()) + "%");
+        int percentage = 100;
+        if(download->getSize()){
+            percentage = download->getTransmit() * 100 / download->getSize();
+        }
+        itemToUpdate->setData(3,Qt::DisplayRole, percentage);
     }
 }
