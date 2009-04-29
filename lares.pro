@@ -15,7 +15,8 @@ SOURCES += main.cpp \
     aresconnection.cpp \
     aressearchwidgetitem.cpp \
     aresdownload.cpp \
-    aresdownloadwidget.cpp
+    aresdownloadwidget.cpp \
+    aresdownloadwidgetdelegate.cpp
 HEADERS += mainwindow.h \
     giftconnection.h \
     giftcommand.h \
@@ -25,7 +26,8 @@ HEADERS += mainwindow.h \
     aresconnection.h \
     aressearchwidgetitem.h \
     aresdownload.h \
-    aresdownloadwidget.h
+    aresdownloadwidget.h \
+    aresdownloadwidgetdelegate.h
 FORMS += mainwindow.ui \
     aressearchwidget.ui \
     aresdownloadwidget.ui

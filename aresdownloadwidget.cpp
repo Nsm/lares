@@ -6,6 +6,7 @@ AresDownloadWidget::AresDownloadWidget(QWidget *parent) :
     m_ui(new Ui::AresDownloadWidget)
 {
     m_ui->setupUi(this);
+    m_ui->twDownloads->setItemDelegate(new AresDownloadWidgetDelegate());
 }
 
 AresDownloadWidget::~AresDownloadWidget()

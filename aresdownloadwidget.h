@@ -5,6 +5,7 @@
 #include "aresdownload.h"
 #include <QTreeWidgetItem>
 #include <QHash>
+#include "aresdownloadwidgetdelegate.h"
 
 namespace Ui {
     class AresDownloadWidget;
