@@ -2,16 +2,18 @@
 #define ARESDOWNLOADWIDGETITEM_H
 
 #include <QTreeWidgetItem>
-
+#include "aresdownload.h"
 class AresDownloadWidgetItem : public QTreeWidgetItem
 {
 public:
     AresDownloadWidgetItem();
-    inline AresDownloadWidgetItem(QTreeWidget * parent): QTreeWidgetItem(parent){}
-    inline int getDownloadId(){ return downloadId; }
-    void setDownloadId(int id){downloadId = id;}
+    AresDownloadWidgetItem(QTreeWidget * parent,AresDownload * download);
+    int getDownloadId();
+    AresDownload::State getDownloadState();
+    //actualiza la informacion mostrada en el item utilizando la informacion de la descarga(del objeto download)
+    void update();
 private:
-    int downloadId;
+    AresDownload * download;
 };
 
 #endif // ARESDOWNLOADWIDGETITEM_H

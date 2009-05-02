@@ -99,7 +99,7 @@ void AresConnection::updateDownload(GIftCommand * command){
             download->setState(AresDownload::PAUSED);
         }
         download->addSpeedStat(command->getProperty("elapsed")->getValue().toLong(),command->getProperty("throughput")->getValue().toLong());
-        emit downloadChanged(download);
+        emit downloadChanged(downloadId);
     }
 }
 
@@ -128,6 +128,20 @@ void AresConnection::download(AresDownloadRequest * request){
 void AresConnection::cancelDownload(int downloadId){
     GIftCommand * cancelCommand = new GIftCommand("TRANSFER",QString::number(downloadId));
     cancelCommand->setProperty("action","cancel");
+    giftConnection->write(cancelCommand);
+    delete cancelCommand;
+}
+
+void AresConnection::pauseDownload(int downloadId){
+    GIftCommand * cancelCommand = new GIftCommand("TRANSFER",QString::number(downloadId));
+    cancelCommand->setProperty("action","pause");
+    giftConnection->write(cancelCommand);
+    delete cancelCommand;
+}
+
+void AresConnection::unpauseDownload(int downloadId){
+    GIftCommand * cancelCommand = new GIftCommand("TRANSFER",QString::number(downloadId));
+    cancelCommand->setProperty("action","unpause");
     giftConnection->write(cancelCommand);
     delete cancelCommand;
 }

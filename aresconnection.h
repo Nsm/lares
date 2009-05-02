@@ -19,6 +19,8 @@ public:
     void download(AresDownloadRequest *request);
 public slots:
     void cancelDownload(int downloadId);
+    void pauseDownload(int downloadId);
+    void unpauseDownload(int downloadId);
 private:
     GIftConnection * giftConnection;
     Status connectionStatus;
@@ -35,7 +37,7 @@ signals:
     void itemFinded(AresItem * item, int searchId);
     void searchFinished(int searchId);
     void downloadStarted(AresDownload * download);
-    void downloadChanged(AresDownload * download);
+    void downloadChanged(int downloadId);
 };
 
 #endif // ARESCONNECTION_H

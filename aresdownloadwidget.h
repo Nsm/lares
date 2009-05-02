@@ -28,15 +28,19 @@ private:
 
 public slots:
     void addDownload(AresDownload *download);
-    void updateDownload(AresDownload *download);
+    void updateDownload(int downloadId);
 protected slots:
     void showContextMenu( const QPoint & pos );
 
 private slots:
+    void on_actionResume_triggered();
+    void on_actionPause_triggered();
     void on_actionCancel_triggered();
 
 signals:
     void downloadCancelled(int downloadId);
+    void downloadPaused(int downloadId);
+    void downloadResumed(int downloadId);
 };
 
 #endif // ARESDOWNLOADWIDGET_H

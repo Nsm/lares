@@ -28,28 +28,14 @@ void AresDownloadWidget::changeEvent(QEvent *e)
 }
 
 void AresDownloadWidget::addDownload(AresDownload *download){
-    AresDownloadWidgetItem * newItem = new AresDownloadWidgetItem(m_ui->twDownloads);
-    newItem->setDownloadId(download->getId());
-    newItem->setText(0,download->getFileName());
-    newItem->setText(1,QString::number(qRound(download->getSize() / 1024)) + "Kb");
-    newItem->setText(2,QString::number(qRound(download->getTransmit() / 1024)) + "Kb");
-    int percentage = 100;
-    if(download->getSize()){
-        percentage = download->getTransmit() * 100 / download->getSize();
-    }
-    newItem->setData(3,Qt::DisplayRole, percentage);
+    AresDownloadWidgetItem * newItem = new AresDownloadWidgetItem(m_ui->twDownloads,download);
     itemsHash.insert(download->getId(),newItem);
 }
 
-void AresDownloadWidget::updateDownload(AresDownload *download){
-    if(itemsHash.contains(download->getId())){
-        AresDownloadWidgetItem * itemToUpdate = itemsHash[download->getId()];
-        itemToUpdate->setText(2,QString::number(qRound(download->getTransmit() / 1024)) + "Kb");
-        int percentage = 100;
-        if(download->getSize()){
-            percentage = download->getTransmit() * 100 / download->getSize();
-        }
-        itemToUpdate->setData(3,Qt::DisplayRole, percentage);
+void AresDownloadWidget::updateDownload(int downloadId){
+    if(itemsHash.contains(downloadId)){
+        AresDownloadWidgetItem * itemToUpdate = itemsHash[downloadId];
+        itemToUpdate->update();
     }
 }
 
@@ -58,6 +44,11 @@ void AresDownloadWidget::showContextMenu( const QPoint & pos ){
     if(item){
         QMenu * contextMenu = new QMenu();
         contextMenu->addAction(m_ui->actionCancel);
+        if(item->getDownloadState() == AresDownload::ACTIVE){
+            contextMenu->addAction(m_ui->actionPause);
+        }else if(item->getDownloadState() == AresDownload::PAUSED){
+            contextMenu->addAction(m_ui->actionResume);
+        }
         contextMenu->exec(QCursor::pos());
     }
 }
@@ -67,4 +58,18 @@ void AresDownloadWidget::on_actionCancel_triggered()
     AresDownloadWidgetItem * item = (AresDownloadWidgetItem *)m_ui->twDownloads->currentItem();
     int downloadId = item->getDownloadId();
     emit downloadCancelled(downloadId);
+}
+
+void AresDownloadWidget::on_actionPause_triggered()
+{
+    AresDownloadWidgetItem * item = (AresDownloadWidgetItem *)m_ui->twDownloads->currentItem();
+    int downloadId = item->getDownloadId();
+    emit downloadPaused(downloadId);
+}
+
+void AresDownloadWidget::on_actionResume_triggered()
+{
+    AresDownloadWidgetItem * item = (AresDownloadWidgetItem *)m_ui->twDownloads->currentItem();
+    int downloadId = item->getDownloadId();
+    emit downloadResumed(downloadId);
 }
