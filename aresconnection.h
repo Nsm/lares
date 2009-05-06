@@ -21,13 +21,17 @@ public slots:
     void cancelDownload(int downloadId);
     void pauseDownload(int downloadId);
     void unpauseDownload(int downloadId);
+    //elimina una desacarga y su informacion asociada
+    void deleteDownload(int downloadId);
 private:
     GIftConnection * giftConnection;
     Status connectionStatus;
     void setStatus(Status status);
     Status getStatus();
+    void newSearchedItem(GIftCommand * command);
     void newDownload(GIftCommand * command);
     void updateDownload(GIftCommand * command);
+    void downloadFinished(int downloadId);
     //lista (hash) de descargas actuales:
     QHash<int,AresDownload *> downloads;
 private slots:
@@ -38,6 +42,8 @@ signals:
     void searchFinished(int searchId);
     void downloadStarted(AresDownload * download);
     void downloadChanged(int downloadId);
+    void downloadCompleted(int downloadId);
+    void downloadCancelled(int downloadId);
 };
 
 #endif // ARESCONNECTION_H

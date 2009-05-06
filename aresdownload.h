@@ -8,7 +8,7 @@ class AresDownload : public QObject
 {
 public:
     enum State{
-        ACTIVE, PAUSED, COMPLETED
+        ACTIVE, PAUSED, COMPLETED, CANCELLED
     };
 
     struct Source{

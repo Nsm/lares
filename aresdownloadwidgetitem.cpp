@@ -27,7 +27,6 @@ void AresDownloadWidgetItem::update()
         percentage = download->getTransmit() * 100 / download->getSize();
     }
     this->setData(3,Qt::DisplayRole, percentage);
-
     //dependiendo del estado de la descarga se utiliza un color para la fuente
     QBrush brush;
     switch(download->getState()){
@@ -48,4 +47,10 @@ void AresDownloadWidgetItem::update()
 
 AresDownload::State AresDownloadWidgetItem::getDownloadState(){
     return download->getState();
+}
+
+void AresDownloadWidgetItem::setDownloadState(AresDownload::State state){
+    download->setState(state);
+    //actualiza el item (informacion mostrada, color, etc)
+    update();
 }

@@ -39,6 +39,14 @@ void AresDownloadWidget::updateDownload(int downloadId){
     }
 }
 
+void AresDownloadWidget::removeDownload(int downloadId){
+    if(itemsHash.contains(downloadId)){
+        AresDownloadWidgetItem * itemToRemove = itemsHash[downloadId];
+        delete itemToRemove;
+        emit downloadRemoved(downloadId);
+    }
+}
+
 void AresDownloadWidget::showContextMenu( const QPoint & pos ){
     AresDownloadWidgetItem * item = (AresDownloadWidgetItem *)m_ui->twDownloads->itemAt(pos);
     if(item){
@@ -64,6 +72,7 @@ void AresDownloadWidget::on_actionPause_triggered()
 {
     AresDownloadWidgetItem * item = (AresDownloadWidgetItem *)m_ui->twDownloads->currentItem();
     int downloadId = item->getDownloadId();
+    item->setDownloadState(AresDownload::PAUSED);
     emit downloadPaused(downloadId);
 }
 
@@ -71,5 +80,6 @@ void AresDownloadWidget::on_actionResume_triggered()
 {
     AresDownloadWidgetItem * item = (AresDownloadWidgetItem *)m_ui->twDownloads->currentItem();
     int downloadId = item->getDownloadId();
+    item->setDownloadState(AresDownload::ACTIVE);
     emit downloadResumed(downloadId);
 }

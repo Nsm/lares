@@ -21,9 +21,11 @@ MainWindow::MainWindow(QWidget *parent)
     connect(connection,SIGNAL(itemFinded(AresItem *, int)),this,SLOT(itemFinded(AresItem * , int )));
     connect(connection,SIGNAL(downloadStarted(AresDownload*)),this,SLOT(downloadStarted(AresDownload*)));
     connect(connection,SIGNAL(downloadChanged(int)),downloadWidget,SLOT(updateDownload(int)));
+    connect(connection,SIGNAL(downloadCancelled(int)),downloadWidget,SLOT(removeDownload(int)));
     connect(downloadWidget,SIGNAL(downloadCancelled(int)),connection,SLOT(cancelDownload(int)));
     connect(downloadWidget,SIGNAL(downloadPaused(int)),connection,SLOT(pauseDownload(int)));
     connect(downloadWidget,SIGNAL(downloadResumed(int)),connection,SLOT(unpauseDownload(int)));
+    connect(downloadWidget,SIGNAL(downloadRemoved(int)),connection,SLOT(deleteDownload(int)));
 }
 
 MainWindow::~MainWindow()

@@ -42,26 +42,32 @@ void AresConnection::readCommand(){
         if(command->getName() == "ATTACH" ){
             this->setStatus(CONNECT);
         }else if(command->getName() == "ITEM"){
-            if(command->hasProperties()){
-                AresItem * item = new AresItem();
-                item->setUser(command->getProperty("user")->getValue());
-                item->setNode(command->getProperty("node")->getValue());
-                item->setAvailability(command->getProperty("availability")->getValue().toInt());
-                item->setSize(command->getProperty("size")->getValue().toLong());
-                item->setUrl(command->getProperty("url")->getValue());
-                item->setFileName(command->getProperty("file")->getValue());
-                item->setMimeType(command->getProperty("mime")->getValue());
-                item->setHash(command->getProperty("hash")->getValue());
-                emit itemFinded(item,command->getValue().toInt());
-            }else{
-                //un item sin contenido marca el final de una busqueda
-                emit searchFinished(command->getValue().toInt());
-            }
+            newSearchedItem(command);
         }else if(command->getName() == "ADDDOWNLOAD"){
             newDownload(command);
         }else if(command->getName() == "CHGDOWNLOAD"){
             updateDownload(command);
+        }else if(command->getName() == "DELDOWNLOAD"){
+            downloadFinished(command->getValue().toInt());
         }
+    }
+}
+
+void AresConnection::newSearchedItem(GIftCommand * command){
+    if(command->hasProperties()){
+        AresItem * item = new AresItem();
+        item->setUser(command->getProperty("user")->getValue());
+        item->setNode(command->getProperty("node")->getValue());
+        item->setAvailability(command->getProperty("availability")->getValue().toInt());
+        item->setSize(command->getProperty("size")->getValue().toLong());
+        item->setUrl(command->getProperty("url")->getValue());
+        item->setFileName(command->getProperty("file")->getValue());
+        item->setMimeType(command->getProperty("mime")->getValue());
+        item->setHash(command->getProperty("hash")->getValue());
+        emit itemFinded(item,command->getValue().toInt());
+    }else{
+        //un item sin contenido marca el final de una busqueda
+        emit searchFinished(command->getValue().toInt());
     }
 }
 
@@ -100,6 +106,17 @@ void AresConnection::updateDownload(GIftCommand * command){
         }
         download->addSpeedStat(command->getProperty("elapsed")->getValue().toLong(),command->getProperty("throughput")->getValue().toLong());
         emit downloadChanged(downloadId);
+    }
+}
+
+void AresConnection::downloadFinished(int downloadId){
+    if(downloads.contains(downloadId)){
+       if(downloads[downloadId]->getState() == AresDownload::COMPLETED){
+           emit downloadCompleted(downloadId);
+       }else{
+           downloads[downloadId]->setState(AresDownload::CANCELLED);
+           emit downloadCancelled(downloadId);
+       }
     }
 }
 
@@ -144,4 +161,16 @@ void AresConnection::unpauseDownload(int downloadId){
     cancelCommand->setProperty("action","unpause");
     giftConnection->write(cancelCommand);
     delete cancelCommand;
+}
+
+void AresConnection::deleteDownload(int downloadId){
+    if(downloads.contains(downloadId)){
+        AresDownload * download = downloads[downloadId];
+        //si la descarga aun no se completo ni estaba cancelada entonces se cancela
+        if(download->getState() != AresDownload::COMPLETED && download->getState() != AresDownload::CANCELLED){
+            cancelDownload(downloadId);
+        }
+        downloads.remove(downloadId);
+        delete download;
+    }
 }
