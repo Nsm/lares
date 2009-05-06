@@ -42,6 +42,7 @@ void AresDownloadWidget::updateDownload(int downloadId){
 void AresDownloadWidget::removeDownload(int downloadId){
     if(itemsHash.contains(downloadId)){
         AresDownloadWidgetItem * itemToRemove = itemsHash[downloadId];
+        itemsHash.remove(downloadId);
         delete itemToRemove;
         emit downloadRemoved(downloadId);
     }
@@ -50,13 +51,22 @@ void AresDownloadWidget::removeDownload(int downloadId){
 void AresDownloadWidget::showContextMenu( const QPoint & pos ){
     AresDownloadWidgetItem * item = (AresDownloadWidgetItem *)m_ui->twDownloads->itemAt(pos);
     if(item){
+        AresDownload::State itemState = item->getDownloadState();
         QMenu * contextMenu = new QMenu();
-        contextMenu->addAction(m_ui->actionCancel);
-        if(item->getDownloadState() == AresDownload::ACTIVE){
+        //Las acciones del menu contextual se muestran de acuerdo al estado del item sobre el cual se ejecutaran (el que este bajo el raton)
+        if(itemState != AresDownload::COMPLETED){
+            contextMenu->addAction(m_ui->actionCancel);
+        }else{
+            contextMenu->addAction(m_ui->actionRemove);
+        }
+        if( itemState == AresDownload::ACTIVE){
             contextMenu->addAction(m_ui->actionPause);
-        }else if(item->getDownloadState() == AresDownload::PAUSED){
+        }else if(itemState == AresDownload::PAUSED){
             contextMenu->addAction(m_ui->actionResume);
         }
+        contextMenu->addSeparator();
+        //acciones que se muestran siempre:
+        contextMenu->addAction(m_ui->actionRemoveAll);
         contextMenu->exec(QCursor::pos());
     }
 }
@@ -82,4 +92,23 @@ void AresDownloadWidget::on_actionResume_triggered()
     int downloadId = item->getDownloadId();
     item->setDownloadState(AresDownload::ACTIVE);
     emit downloadResumed(downloadId);
+}
+
+void AresDownloadWidget::on_actionRemove_triggered()
+{
+    AresDownloadWidgetItem * item = (AresDownloadWidgetItem *)m_ui->twDownloads->currentItem();
+    int downloadId = item->getDownloadId();
+    removeDownload(downloadId);
+}
+
+/*
+  Quita de la lista todos los items que ya se han completado
+*/
+void AresDownloadWidget::on_actionRemoveAll_triggered()
+{
+    foreach(AresDownloadWidgetItem * item, itemsHash){
+        if(item->getDownloadState() == AresDownload::COMPLETED){
+            removeDownload(item->getDownloadId());
+        }
+    }
 }

@@ -66,6 +66,16 @@
     <string>Reanudar</string>
    </property>
   </action>
+  <action name="actionRemove">
+   <property name="text">
+    <string>Quitar de la lista</string>
+   </property>
+  </action>
+  <action name="actionRemoveAll">
+   <property name="text">
+    <string>Quitar todos los completos</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

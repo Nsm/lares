@@ -33,7 +33,9 @@ public slots:
 protected slots:
     void showContextMenu( const QPoint & pos );
 
-private slots:
+void on_actionRemove_triggered();
+    private slots:
+    void on_actionRemoveAll_triggered();
     void on_actionResume_triggered();
     void on_actionPause_triggered();
     void on_actionCancel_triggered();
