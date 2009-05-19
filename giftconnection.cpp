@@ -49,7 +49,11 @@ bool GIftConnection::open(QString host, int port ){
         //TODO informar del error
         return false;
     }else{
-        return true;
+        if(tcpSocket->state() == QTcpSocket::ConnectedState){
+            return true;
+        }else{
+            return false;
+        }
     }
 
 }
@@ -103,7 +107,7 @@ GIftCommand * GIftConnection::read(){
   Envia un comando al servidor de giFt
 **/
 void GIftConnection::write(GIftCommand * command){
-    if(tcpSocket->state() != QTcpSocket::ConnectedState){
+    if(tcpSocket->state() == QTcpSocket::ConnectedState){
         QString protocolString = command->toString();
         tcpSocket->write(protocolString.toLocal8Bit());
     }else{

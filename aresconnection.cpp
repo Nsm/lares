@@ -18,18 +18,28 @@ void AresConnection::open(){
         bool connectionOpened = false;
         int reattempts = 0;
         //se abre la conexion
-        while(!(connectionOpened = giftConnection->open()) && (reattempts < 3)){
+        connectionOpened = giftConnection->open();
+        while(!(connectionOpened) && (reattempts < 3)){
             //si no se pudo conectar se espera y se intenta de nuevo ya que gift a veces tarda un tiempo hasta que se incializa y abre el puerto
             reattempts ++;
             sleep(2);
+            connectionOpened = giftConnection->open();
         }
-        // y se envia un comando de attach al servidor
-        GIftCommand * attachCommand = new GIftCommand("ATTACH","");
-        attachCommand->setProperty("client","Lares");
-        attachCommand->setProperty("version","0.1");
-        attachCommand->setProperty("profile","lares");
-        giftConnection->write(attachCommand);
-        delete attachCommand;
+        if(connectionOpened){
+            // y se envia un comando de attach al servidor
+            GIftCommand * attachCommand = new GIftCommand("ATTACH","");
+            attachCommand->setProperty("client","Lares");
+            attachCommand->setProperty("version","0.1");
+            attachCommand->setProperty("profile","lares");
+            giftConnection->write(attachCommand);
+            delete attachCommand;
+        }else{
+            //la conexion no se pudo establecer con el demonio
+            //TODO informar del error
+        }
+    }else{
+        //no se pudo iniciar el demonio
+        //TODO informar del error
     }
 }
 
