@@ -6,11 +6,28 @@ AresSearchWidget::AresSearchWidget(QWidget *parent) :
     m_ui(new Ui::AresSearchWidget)
 {
     m_ui->setupUi(this);
+    cancelled = false;
 }
 
 AresSearchWidget::~AresSearchWidget()
 {
     delete m_ui;
+}
+
+int AresSearchWidget::getSearchId(){
+    return searchId;
+}
+
+void AresSearchWidget::setSearchId(int searchId){
+    this->searchId = searchId;
+}
+
+bool AresSearchWidget::isCancelled(){
+    return cancelled;
+}
+
+void AresSearchWidget::setCancelled(bool cancelled){
+    this->cancelled = cancelled;
 }
 
 void AresSearchWidget::changeEvent(QEvent *e)

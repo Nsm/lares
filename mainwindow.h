@@ -37,6 +37,7 @@ private slots:
 public slots:
     void startDownload(AresDownloadRequest * download);
     void downloadStarted(AresDownload * download);
+    void closeSearchTab(int tabId);
 };
 
 #endif // MAINWINDOW_H

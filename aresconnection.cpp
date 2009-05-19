@@ -142,6 +142,13 @@ void AresConnection::download(AresDownloadRequest * request){
     }
 }
 
+void AresConnection::cancelSearch(int searchId){
+    GIftCommand * cancelCommand = new GIftCommand("SEARCH",QString::number(searchId));
+    cancelCommand->setProperty("action","cancel");
+    giftConnection->write(cancelCommand);
+    delete cancelCommand;
+}
+
 void AresConnection::cancelDownload(int downloadId){
     GIftCommand * cancelCommand = new GIftCommand("TRANSFER",QString::number(downloadId));
     cancelCommand->setProperty("action","cancel");

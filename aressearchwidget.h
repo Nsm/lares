@@ -19,12 +19,19 @@ public:
     explicit AresSearchWidget(QWidget *parent = 0);
     virtual ~AresSearchWidget();
     void clear();
+    bool isCancelled();
+    void setCancelled(bool cancelled);
+    int getSearchId();
+    void setSearchId(int searchId);
+
 protected:
     virtual void changeEvent(QEvent *e);
 
 private:
     Ui::AresSearchWidget *m_ui;
     QHash<QString, AresSearchWidgetItem *> itemsHash;
+    bool cancelled;
+    int searchId;
 
 private slots:
     void on_twSearch_itemDoubleClicked(QTreeWidgetItem* item, int column);

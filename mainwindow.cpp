@@ -10,13 +10,14 @@ MainWindow::MainWindow(QWidget *parent)
 
     tabSearchResult = new QTabWidget();
     ui->tabSearch->layout()->addWidget(tabSearchResult);
-
+    tabSearchResult->setTabsClosable(true);
     tabSearchResult->setVisible(true);
 
     downloadWidget = new AresDownloadWidget();
     ui->tabDownload->layout()->addWidget(downloadWidget);
     downloadWidget->setVisible(true);
 
+    connect(tabSearchResult,SIGNAL(tabCloseRequested(int)),this,SLOT(closeSearchTab(int)));
     connect(connection,SIGNAL(statusChanged(AresConnection::Status )),this,SLOT(connectionStatusChanged(AresConnection::Status)));
     connect(connection,SIGNAL(itemFinded(AresItem *, int)),this,SLOT(itemFinded(AresItem * , int )));
     connect(connection,SIGNAL(downloadStarted(AresDownload*)),this,SLOT(downloadStarted(AresDownload*)));
@@ -53,6 +54,7 @@ void MainWindow::on_leSearch_returnPressed()
     int searchId = connection->search(ui->leSearch->text());
 
     AresSearchWidget * searchWidget = new AresSearchWidget();
+    searchWidget->setSearchId(searchId);
     tabSearchResult->addTab(searchWidget,ui->leSearch->text());
     searchWidget->setVisible(true);
     //se conecta la señal del widget de busqueda de iniciar una nueva descarga con el slot correspondiente
@@ -78,4 +80,13 @@ void MainWindow::startDownload(AresDownloadRequest * download){
 
 void MainWindow::downloadStarted(AresDownload * download){
     downloadWidget->addDownload(download);
+}
+
+void MainWindow::closeSearchTab(int tabId){
+    AresSearchWidget * searchWidget = (AresSearchWidget *) tabSearchResult->widget(tabId);
+    int searchId = searchWidget->getSearchId();
+    searchWidgets.remove(searchId);
+    tabSearchResult->removeTab(tabId);
+    delete searchWidget;
+    connection->cancelSearch(searchId);
 }

@@ -18,6 +18,7 @@ public:
     int search(QString query);
     void download(AresDownloadRequest *request);
 public slots:
+    void cancelSearch(int searchId);
     void cancelDownload(int downloadId);
     void pauseDownload(int downloadId);
     void unpauseDownload(int downloadId);
