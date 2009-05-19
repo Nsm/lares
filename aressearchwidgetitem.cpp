@@ -48,6 +48,6 @@ bool AresSearchWidgetItem::operator<(const QTreeWidgetItem &other)const{
     if( column == 2){
         return data(column,Qt::DisplayRole).toInt() < other.data(column,Qt::DisplayRole).toInt();
     }else{
-        QTreeWidgetItem::operator <(other);
+        return QTreeWidgetItem::operator <(other);
     }
 }

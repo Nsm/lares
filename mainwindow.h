@@ -30,10 +30,12 @@ private:
     QHash<int,AresSearchWidget *> searchWidgets;
     AresDownloadWidget * downloadWidget;
 private slots:
+    void on_pbStopSearch_clicked();
+    void on_pbSearch_clicked();
     void on_pbConnect_clicked();
-    void on_leSearch_returnPressed();
     void connectionStatusChanged(AresConnection::Status newStatus);
     void itemFinded(AresItem * item, int searchId);
+    void currentSearchTabChanged(int tabId);
 public slots:
     void startDownload(AresDownloadRequest * download);
     void downloadStarted(AresDownload * download);

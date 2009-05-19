@@ -16,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
     downloadWidget = new AresDownloadWidget();
     ui->tabDownload->layout()->addWidget(downloadWidget);
     downloadWidget->setVisible(true);
-
+    connect(tabSearchResult,SIGNAL(currentChanged(int)),this,SLOT(currentSearchTabChanged(int)));
     connect(tabSearchResult,SIGNAL(tabCloseRequested(int)),this,SLOT(closeSearchTab(int)));
     connect(connection,SIGNAL(statusChanged(AresConnection::Status )),this,SLOT(connectionStatusChanged(AresConnection::Status)));
     connect(connection,SIGNAL(itemFinded(AresItem *, int)),this,SLOT(itemFinded(AresItem * , int )));
@@ -48,19 +48,13 @@ void MainWindow::connectionStatusChanged(AresConnection::Status newStatus){
     }
 }
 
-void MainWindow::on_leSearch_returnPressed()
-{
-    //se crea una nueva busqueda y un nuevo tab para mostrarla
-    int searchId = connection->search(ui->leSearch->text());
-
-    AresSearchWidget * searchWidget = new AresSearchWidget();
-    searchWidget->setSearchId(searchId);
-    tabSearchResult->addTab(searchWidget,ui->leSearch->text());
-    searchWidget->setVisible(true);
-    //se conecta la señal del widget de busqueda de iniciar una nueva descarga con el slot correspondiente
-    connect(searchWidget,SIGNAL(downloadRequested(AresDownloadRequest*)),this,SLOT(startDownload(AresDownloadRequest *)));
-    searchWidgets.insert(searchId,searchWidget);
-    ui->statusBar->showMessage(tr("Buscando %1").arg(ui->leSearch->text()),2000);
+void MainWindow::currentSearchTabChanged(int tabId){
+    AresSearchWidget * searchWidget = (AresSearchWidget *) tabSearchResult->widget(tabId);
+    if(searchWidget->isCancelled()){
+        ui->pbStopSearch->setEnabled(false);
+    }else{
+        ui->pbStopSearch->setEnabled(true);
+    }
 }
 
 void MainWindow::itemFinded(AresItem * item, int searchId){
@@ -89,4 +83,29 @@ void MainWindow::closeSearchTab(int tabId){
     tabSearchResult->removeTab(tabId);
     delete searchWidget;
     connection->cancelSearch(searchId);
+}
+
+void MainWindow::on_pbSearch_clicked()
+{
+     //se crea una nueva busqueda y un nuevo tab para mostrarla
+    int searchId = connection->search(ui->leSearch->text());
+
+    AresSearchWidget * searchWidget = new AresSearchWidget();
+    searchWidget->setSearchId(searchId);
+    tabSearchResult->addTab(searchWidget,ui->leSearch->text());
+    searchWidget->setVisible(true);
+    //se conecta la señal del widget de busqueda de iniciar una nueva descarga con el slot correspondiente
+    connect(searchWidget,SIGNAL(downloadRequested(AresDownloadRequest*)),this,SLOT(startDownload(AresDownloadRequest *)));
+    searchWidgets.insert(searchId,searchWidget);
+    ui->statusBar->showMessage(tr("Buscando %1").arg(ui->leSearch->text()),2000);
+}
+
+void MainWindow::on_pbStopSearch_clicked()
+{
+    AresSearchWidget * searchWidget = (AresSearchWidget *) tabSearchResult->currentWidget();
+    if(!searchWidget->isCancelled()){
+        ui->pbStopSearch->setEnabled(false);
+        searchWidget->setCancelled(true);
+        connection->cancelSearch(searchWidget->getSearchId());
+    }
 }

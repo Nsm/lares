@@ -57,6 +57,20 @@
             <item>
              <widget class="QLineEdit" name="leSearch"/>
             </item>
+            <item>
+             <widget class="QPushButton" name="pbSearch">
+              <property name="text">
+               <string>Buscar</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pbStopSearch">
+              <property name="text">
+               <string>Detener</string>
+              </property>
+             </widget>
+            </item>
            </layout>
           </item>
          </layout>
@@ -79,21 +93,30 @@
      <x>0</x>
      <y>0</y>
      <width>568</width>
-     <height>24</height>
+     <height>25</height>
     </rect>
    </property>
-  </widget>
-  <widget class="QToolBar" name="mainToolBar">
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>leSearch</sender>
+   <signal>returnPressed()</signal>
+   <receiver>pbSearch</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>340</x>
+     <y>237</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>395</x>
+     <y>234</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
