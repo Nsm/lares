@@ -7,17 +7,32 @@ AresConnection::AresConnection()
     connectionStatus = DISCONNECTED;
 }
 
-
+/**
+  Abre la copnexion con el demonio de giFT
+**/
 void AresConnection::open(){
+    //se cambia el estado a conectando
     this->setStatus(CONNECTING);
-    GIftCommand * attachCommand = new GIftCommand("ATTACH","");
-    giftConnection->open();
-    attachCommand->setProperty("client","Lares");
-    attachCommand->setProperty("version","0.1");
-    attachCommand->setProperty("profile","lares");
-    giftConnection->write(attachCommand);
-    delete attachCommand;
+    //se inicia el demonio de gift
+    if(giftConnection->startDaemon()){
+        bool connectionOpened = false;
+        int reattempts = 0;
+        //se abre la conexion
+        while(!(connectionOpened = giftConnection->open()) && (reattempts < 3)){
+            //si no se pudo conectar se espera y se intenta de nuevo ya que gift a veces tarda un tiempo hasta que se incializa y abre el puerto
+            reattempts ++;
+            sleep(2);
+        }
+        // y se envia un comando de attach al servidor
+        GIftCommand * attachCommand = new GIftCommand("ATTACH","");
+        attachCommand->setProperty("client","Lares");
+        attachCommand->setProperty("version","0.1");
+        attachCommand->setProperty("profile","lares");
+        giftConnection->write(attachCommand);
+        delete attachCommand;
+    }
 }
+
 
 /**
   Realiza una busqueda utilizando los criterios pasados como parametro y retorna el id de evento
@@ -34,6 +49,7 @@ int AresConnection::search(QString query){
 
 void AresConnection::close(){
     giftConnection->close();
+    giftConnection->stopDaemon();
 }
 
 void AresConnection::readCommand(){

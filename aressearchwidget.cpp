@@ -12,6 +12,7 @@ AresSearchWidget::AresSearchWidget(QWidget *parent) :
 AresSearchWidget::~AresSearchWidget()
 {
     delete m_ui;
+    //TODO borrar todos los objetos del search widget (sobre todo los objetos que representan las busquedas)
 }
 
 int AresSearchWidget::getSearchId(){

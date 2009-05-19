@@ -2,6 +2,7 @@
 
 GIftConnection::GIftConnection()
 {
+    giftDaemon = new QProcess();
     tcpSocket = new QTcpSocket(this);
     buffer = "";
     connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(readCommand()));
@@ -9,14 +10,48 @@ GIftConnection::GIftConnection()
 }
 
 /**
+  Inicia el demonio de gift
+**/
+bool GIftConnection::startDaemon(){
+    //inicia el demonio
+    giftDaemon->start("giftd");
+    //espera a que inicie un maximo de 5 segundos
+    if(! giftDaemon->waitForStarted(5000)){
+        //el demonio no inicio y ya paso el tiempo de espera maxima
+        //TODO informar del error
+        return false;
+    }else{
+        return true;
+    }
+}
+
+/**
+  Para al demonio de gift
+**/
+void GIftConnection::stopDaemon(){
+    giftDaemon->terminate();
+}
+
+
+/**
   Abre la conexion con el servidor
 **/
-void GIftConnection::open(QString host, int port ){
+bool GIftConnection::open(QString host, int port ){
     //por las dudas de que la conexion ya esta abierta la cerramos
     tcpSocket->abort();
-    tcpSocket->connectToHost(host,port);
     //resetea el contador de ids de eventos
     setCurrentEventId(0);
+    //se abre la conexion con el servidor
+    tcpSocket->connectToHost(host,port);
+    //se espera a que se establesca
+    if(! tcpSocket->waitForConnected(3000)){
+        //la conexion no se establecio y ya paso el tiempo maximo de espera
+        //TODO informar del error
+        return false;
+    }else{
+        return true;
+    }
+
 }
 
 /**
@@ -68,8 +103,12 @@ GIftCommand * GIftConnection::read(){
   Envia un comando al servidor de giFt
 **/
 void GIftConnection::write(GIftCommand * command){
-    QString protocolString = command->toString();
-    tcpSocket->write(protocolString.toLocal8Bit());
+    if(tcpSocket->state() != QTcpSocket::ConnectedState){
+        QString protocolString = command->toString();
+        tcpSocket->write(protocolString.toLocal8Bit());
+    }else{
+        //TODO informar del error
+    }
 }
 
 /**
