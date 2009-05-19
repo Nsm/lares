@@ -76,6 +76,14 @@
     <string>Quitar todos los completos</string>
    </property>
   </action>
+  <action name="actionPreview">
+   <property name="text">
+    <string>Previsualizar</string>
+   </property>
+   <property name="toolTip">
+    <string>Previsualizar descarga</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

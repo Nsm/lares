@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QList>
-
+#include <QDir>
 class AresDownload : public QObject
 {
 public:
@@ -35,6 +35,7 @@ public:
     //retorna la velocidad instantanea de bajada en bytes/segundos
     long getInstantSpeed();
     QString getFileName();
+    QString getFilePath();
     QString getHash();
     long getSize();
     long getTransmit();

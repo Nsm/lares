@@ -54,3 +54,4 @@ void AresDownloadWidgetItem::setDownloadState(AresDownload::State state){
     //actualiza el item (informacion mostrada, color, etc)
     update();
 }
+

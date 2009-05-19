@@ -76,3 +76,19 @@ void AresDownload::addSpeedStat(long time, long size){
 long AresDownload::getInstantSpeed(){
     return instantSpeed;
 }
+
+QString AresDownload::getFilePath(){
+    //TODO las rutas a la carpeta de completados y de temporales deberian leerse de alguna clase de configuracion
+    QString filePath = "";
+    QString giFTDir = QDir::homePath() + "/.giFT";
+    if(getState() == COMPLETED){
+        filePath = giFTDir + "/completed/" + getFileName();
+    }else{
+        QDir tempDir(giFTDir + "/incoming");
+        QStringList list = tempDir.entryList().filter(getFileName());
+        if(list.length() > 0){
+            filePath = tempDir.path() + "/" + list.first();
+        }
+    }
+    return filePath;
+}

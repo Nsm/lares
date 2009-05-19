@@ -64,6 +64,7 @@ void AresDownloadWidget::showContextMenu( const QPoint & pos ){
         }else if(itemState == AresDownload::PAUSED){
             contextMenu->addAction(m_ui->actionResume);
         }
+        contextMenu->addAction(m_ui->actionPreview);
         contextMenu->addSeparator();
         //acciones que se muestran siempre:
         contextMenu->addAction(m_ui->actionRemoveAll);
@@ -111,4 +112,10 @@ void AresDownloadWidget::on_actionRemoveAll_triggered()
             removeDownload(item->getDownloadId());
         }
     }
+}
+
+void AresDownloadWidget::on_actionPreview_triggered()
+{
+    AresDownloadWidgetItem * item = (AresDownloadWidgetItem *)m_ui->twDownloads->currentItem();
+    emit downloadPreviewed(item->getDownloadId());
 }

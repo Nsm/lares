@@ -207,3 +207,11 @@ void AresConnection::deleteDownload(int downloadId){
         delete download;
     }
 }
+
+AresDownload * AresConnection::getDownload(int downloadId){
+    if(downloads.contains(downloadId)){
+        return downloads[downloadId];
+    }else{
+        return NULL;
+    }
+}

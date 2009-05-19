@@ -5,6 +5,12 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindowClass)
 {
     ui->setupUi(this);
+
+    //se inicializan los elementos necesarios para realizar vistas previas de canciones y videos
+    mediaPreview = NULL;
+    seekSlider = new Phonon::SeekSlider();
+    ui->previewControlsLayout->addWidget(seekSlider);
+
     connection = new AresConnection();
     ui->statusBar->addWidget(statusMessage = new QLabel(this));
 
@@ -27,10 +33,12 @@ MainWindow::MainWindow(QWidget *parent)
     connect(downloadWidget,SIGNAL(downloadPaused(int)),connection,SLOT(pauseDownload(int)));
     connect(downloadWidget,SIGNAL(downloadResumed(int)),connection,SLOT(unpauseDownload(int)));
     connect(downloadWidget,SIGNAL(downloadRemoved(int)),connection,SLOT(deleteDownload(int)));
+    connect(downloadWidget,SIGNAL(downloadPreviewed(int)),this,SLOT(previewDownload(int)));
 }
 
 MainWindow::~MainWindow()
 {
+    connection->close();
     delete ui;
 }
 
@@ -107,5 +115,38 @@ void MainWindow::on_pbStopSearch_clicked()
         ui->pbStopSearch->setEnabled(false);
         searchWidget->setCancelled(true);
         connection->cancelSearch(searchWidget->getSearchId());
+    }
+}
+
+void MainWindow::previewDownload(int downloadId){
+    AresDownload * download = connection->getDownload(downloadId);
+    if(mediaPreview != NULL){
+        mediaPreview->stop();
+        delete mediaPreview;
+    }
+    mediaPreview = Phonon::createPlayer(Phonon::MusicCategory,Phonon::MediaSource(download->getFilePath()));
+    seekSlider->setMediaObject(mediaPreview);
+    mediaPreview->play();
+    ui->statusBar->showMessage(tr("Previsualizando %1").arg(download->getFileName()),2000);
+}
+
+void MainWindow::on_tbPreviewPlay_clicked()
+{
+    if(mediaPreview){
+        mediaPreview->play();
+    }
+}
+
+void MainWindow::on_tbPreviewPause_clicked()
+{
+    if(mediaPreview){
+        mediaPreview->pause();
+    }
+}
+
+void MainWindow::on_tbPreviewStop_clicked()
+{
+    if(mediaPreview){
+        mediaPreview->stop();
     }
 }

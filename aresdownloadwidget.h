@@ -35,6 +35,7 @@ protected slots:
 
 void on_actionRemove_triggered();
     private slots:
+    void on_actionPreview_triggered();
     void on_actionRemoveAll_triggered();
     void on_actionResume_triggered();
     void on_actionPause_triggered();
@@ -45,6 +46,8 @@ signals:
     void downloadPaused(int downloadId);
     void downloadResumed(int downloadId);
     void downloadRemoved(int downloadId);
+    void downloadPreviewed(int downloadId);
+
 };
 
 #endif // ARESDOWNLOADWIDGET_H

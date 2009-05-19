@@ -2,6 +2,7 @@
 #define ARESCONNECTION_H
 
 #include <QObject>
+#include "stdio.h"
 #include "giftconnection.h"
 #include "aresitem.h"
 #include "aresdownloadrequest.h"
@@ -17,6 +18,7 @@ public:
     void close();
     int search(QString query);
     void download(AresDownloadRequest *request);
+    AresDownload * getDownload(int downloadId);
 public slots:
     void cancelSearch(int searchId);
     void cancelDownload(int downloadId);

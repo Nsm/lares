@@ -5,6 +5,9 @@
 #include <QLabel>
 #include <QTabWidget>
 #include <QHash>
+#include <QDir>
+#include <QMessageBox>
+#include <Phonon>
 #include "aresconnection.h"
 #include "aressearchwidget.h"
 #include "aresdownloadwidget.h"
@@ -29,7 +32,12 @@ private:
     QTabWidget * tabSearchResult;
     QHash<int,AresSearchWidget *> searchWidgets;
     AresDownloadWidget * downloadWidget;
+    Phonon::MediaObject * mediaPreview;
+    Phonon::SeekSlider *seekSlider;
 private slots:
+    void on_tbPreviewStop_clicked();
+    void on_tbPreviewPause_clicked();
+    void on_tbPreviewPlay_clicked();
     void on_pbStopSearch_clicked();
     void on_pbSearch_clicked();
     void on_pbConnect_clicked();
@@ -40,6 +48,7 @@ public slots:
     void startDownload(AresDownloadRequest * download);
     void downloadStarted(AresDownload * download);
     void closeSearchTab(int tabId);
+    void previewDownload(int downloadId);
 };
 
 #endif // MAINWINDOW_H
