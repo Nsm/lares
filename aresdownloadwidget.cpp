@@ -54,17 +54,17 @@ void AresDownloadWidget::showContextMenu( const QPoint & pos ){
         AresDownload::State itemState = item->getDownloadState();
         QMenu * contextMenu = new QMenu();
         //Las acciones del menu contextual se muestran de acuerdo al estado del item sobre el cual se ejecutaran (el que este bajo el raton)
-        if(itemState != AresDownload::COMPLETED){
-            contextMenu->addAction(m_ui->actionCancel);
-        }else{
-            contextMenu->addAction(m_ui->actionRemove);
-        }
+        contextMenu->addAction(m_ui->actionPreview);
         if( itemState == AresDownload::ACTIVE){
             contextMenu->addAction(m_ui->actionPause);
         }else if(itemState == AresDownload::PAUSED){
             contextMenu->addAction(m_ui->actionResume);
         }
-        contextMenu->addAction(m_ui->actionPreview);
+        if(itemState != AresDownload::COMPLETED){
+            contextMenu->addAction(m_ui->actionCancel);
+        }else{
+            contextMenu->addAction(m_ui->actionRemove);
+        }
         contextMenu->addSeparator();
         //acciones que se muestran siempre:
         contextMenu->addAction(m_ui->actionRemoveAll);
