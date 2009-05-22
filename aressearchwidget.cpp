@@ -23,11 +23,11 @@ void AresSearchWidget::setSearchId(int searchId){
     this->searchId = searchId;
 }
 
-bool AresSearchWidget::isCancelled(){
+bool AresSearchWidget::isSearchCancelled(){
     return cancelled;
 }
 
-void AresSearchWidget::setCancelled(bool cancelled){
+void AresSearchWidget::setSearchCancelled(bool cancelled){
     this->cancelled = cancelled;
 }
 

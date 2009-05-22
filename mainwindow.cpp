@@ -57,11 +57,13 @@ void MainWindow::connectionStatusChanged(AresConnection::Status newStatus){
 }
 
 void MainWindow::currentSearchTabChanged(int tabId){
-    AresSearchWidget * searchWidget = (AresSearchWidget *) tabSearchResult->widget(tabId);
-    if(searchWidget->isCancelled()){
-        ui->pbStopSearch->setEnabled(false);
-    }else{
-        ui->pbStopSearch->setEnabled(true);
+    if(tabId >= 0){
+        AresSearchWidget * searchWidget = (AresSearchWidget *) tabSearchResult->widget(tabId);
+        if(searchWidget->isSearchCancelled()){
+            ui->pbStopSearch->setEnabled(false);
+        }else{
+            ui->pbStopSearch->setEnabled(true);
+        }
     }
 }
 
@@ -87,8 +89,8 @@ void MainWindow::downloadStarted(AresDownload * download){
 void MainWindow::closeSearchTab(int tabId){
     AresSearchWidget * searchWidget = (AresSearchWidget *) tabSearchResult->widget(tabId);
     int searchId = searchWidget->getSearchId();
-    searchWidgets.remove(searchId);
     tabSearchResult->removeTab(tabId);
+    searchWidgets.remove(searchId);
     delete searchWidget;
     connection->cancelSearch(searchId);
 }
@@ -111,9 +113,9 @@ void MainWindow::on_pbSearch_clicked()
 void MainWindow::on_pbStopSearch_clicked()
 {
     AresSearchWidget * searchWidget = (AresSearchWidget *) tabSearchResult->currentWidget();
-    if(!searchWidget->isCancelled()){
+    if(!searchWidget->isSearchCancelled()){
         ui->pbStopSearch->setEnabled(false);
-        searchWidget->setCancelled(true);
+        searchWidget->setSearchCancelled(true);
         connection->cancelSearch(searchWidget->getSearchId());
     }
 }

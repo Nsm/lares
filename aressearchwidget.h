@@ -19,8 +19,8 @@ public:
     explicit AresSearchWidget(QWidget *parent = 0);
     virtual ~AresSearchWidget();
     void clear();
-    bool isCancelled();
-    void setCancelled(bool cancelled);
+    bool isSearchCancelled();
+    void setSearchCancelled(bool cancelled);
     int getSearchId();
     void setSearchId(int searchId);
 
