@@ -33,3 +33,4 @@ HEADERS += mainwindow.h \
 FORMS += mainwindow.ui \
     aressearchwidget.ui \
     aresdownloadwidget.ui
+RESOURCES += images.qrc
