@@ -35,6 +35,7 @@ private:
     Phonon::MediaObject * mediaPreview;
     Phonon::SeekSlider *seekSlider;
 private slots:
+    void on_pbDisconnect_clicked();
     void on_tbPreviewStop_clicked();
     void on_tbPreviewPause_clicked();
     void on_tbPreviewPlay_clicked();

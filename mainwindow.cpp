@@ -74,6 +74,8 @@ void MainWindow::itemFinded(AresItem * item, int searchId){
 void MainWindow::on_pbConnect_clicked()
 {
     connection->open();
+    ui->pbDisconnect->setEnabled(true);
+    ui->pbConnect->setEnabled(false);
 }
 
 void MainWindow::startDownload(AresDownloadRequest * download){
@@ -151,4 +153,11 @@ void MainWindow::on_tbPreviewStop_clicked()
     if(mediaPreview){
         mediaPreview->stop();
     }
+}
+
+void MainWindow::on_pbDisconnect_clicked()
+{
+    connection->close();
+    ui->pbDisconnect->setEnabled(false);
+    ui->pbConnect->setEnabled(true);
 }

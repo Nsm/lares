@@ -35,8 +35,11 @@ private:
     void newDownload(GIftCommand * command);
     void updateDownload(GIftCommand * command);
     void downloadFinished(int downloadId);
+    void addSource(int downloadId, QString url, QString user);
     //lista (hash) de descargas actuales:
     QHash<int,AresDownload *> downloads;
+    //hash que relaciona las descargas con su codigo unico (hash del protocolo gft) y pemite una busqueda rapida
+    QHash<QString, AresDownload *> downloadHash;
 private slots:
     void readCommand();
 signals:

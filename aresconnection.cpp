@@ -90,6 +90,12 @@ void AresConnection::newSearchedItem(GIftCommand * command){
         item->setFileName(command->getProperty("file")->getValue());
         item->setMimeType(command->getProperty("mime")->getValue());
         item->setHash(command->getProperty("hash")->getValue());
+
+        //se chequea el item que se encontro corresponde a una descarga ya inciada. Si es asi se lo agrega como fuente a esa descarga. Esto hace que se aprobechen todas las fuentes encontradas
+        if(downloadHash.contains(item->getHash())){
+            addSource(downloadHash[item->getHash()]->getId(),item->getUrl(),item->getUser());
+        }
+
         emit itemFinded(item,command->getValue().toInt());
     }else{
         //un item sin contenido marca el final de una busqueda
@@ -113,6 +119,7 @@ void AresConnection::newDownload(GIftCommand * command){
         download->setState(AresDownload::PAUSED);
     }
     downloads.insert(download->getId(),download);
+    downloadHash.insert(download->getHash(),download);
     emit downloadStarted(download);
 }
 
@@ -168,6 +175,20 @@ void AresConnection::download(AresDownloadRequest * request){
     }
 }
 
+void AresConnection::addSource(int downloadId,QString url,QString user){
+    if(downloads.contains(downloadId)){
+        AresDownload * download = downloads[downloadId];
+        GIftCommand * addSourceCommand = new GIftCommand("ADDSOURCE","");
+        addSourceCommand->setProperty("url",url);
+        addSourceCommand->setProperty("user",user);
+        addSourceCommand->setProperty("hash",download->getHash());
+        addSourceCommand->setProperty("size",QString::number(download->getSize()));
+        addSourceCommand->setProperty("save",download->getFileName());
+        giftConnection->write(addSourceCommand);
+        delete addSourceCommand;
+    }
+}
+
 void AresConnection::cancelSearch(int searchId){
     GIftCommand * cancelCommand = new GIftCommand("SEARCH",QString::number(searchId));
     cancelCommand->setProperty("action","cancel");
@@ -204,6 +225,7 @@ void AresConnection::deleteDownload(int downloadId){
             cancelDownload(downloadId);
         }
         downloads.remove(downloadId);
+        downloadHash.remove(download->getHash());
         delete download;
     }
 }

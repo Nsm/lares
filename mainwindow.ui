@@ -22,7 +22,7 @@
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabMain">
       <property name="currentIndex">
-       <number>0</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="tabConnection">
        <attribute name="title">
@@ -41,7 +41,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton">
+             <widget class="QPushButton" name="pbDisconnect">
               <property name="enabled">
                <bool>false</bool>
               </property>
@@ -69,17 +69,11 @@
            <layout class="QGridLayout" name="gridLayout_4">
             <item row="1" column="1" rowspan="2">
              <widget class="QLabel" name="label_2">
-              <property name="frameShape">
-               <enum>QFrame::StyledPanel</enum>
-              </property>
-              <property name="frameShadow">
-               <enum>QFrame::Raised</enum>
-              </property>
               <property name="text">
                <string/>
               </property>
               <property name="pixmap">
-               <pixmap resource="images.qrc">:/data/img/pares_blanco.jpg</pixmap>
+               <pixmap resource="images.qrc">:/data/img/pares.png</pixmap>
               </property>
              </widget>
             </item>
@@ -198,21 +192,33 @@
             <item>
              <widget class="QToolButton" name="tbPreviewPlay">
               <property name="text">
-               <string>...</string>
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="images.qrc">
+                <normaloff>:/data/img/play.png</normaloff>:/data/img/play.png</iconset>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QToolButton" name="tbPreviewPause">
               <property name="text">
-               <string>...</string>
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="images.qrc">
+                <normaloff>:/data/img/pause.png</normaloff>:/data/img/pause.png</iconset>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QToolButton" name="tbPreviewStop">
               <property name="text">
-               <string>...</string>
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="images.qrc">
+                <normaloff>:/data/img/stop.png</normaloff>:/data/img/stop.png</iconset>
               </property>
              </widget>
             </item>
@@ -232,7 +238,7 @@
      <x>0</x>
      <y>0</y>
      <width>568</width>
-     <height>24</height>
+     <height>23</height>
     </rect>
    </property>
   </widget>

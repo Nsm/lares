@@ -5,6 +5,9 @@
         <file>data/img/pareslogo32.png</file>
         <file>data/img/pareslogo64.png</file>
         <file>data/img/pareslogo128.png</file>
-        <file>data/img/pares_blanco.jpg</file>
+        <file>data/img/pares.png</file>
+        <file>data/img/pause.png</file>
+        <file>data/img/play.png</file>
+        <file>data/img/stop.png</file>
     </qresource>
 </RCC>
