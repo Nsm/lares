@@ -80,6 +80,7 @@ void AresConnection::readCommand(){
 }
 
 void AresConnection::newSearchedItem(GIftCommand * command){
+    int searchId = command->getValue().toInt();
     if(command->hasProperties()){
         AresItem * item = new AresItem();
         item->setUser(command->getProperty("user")->getValue());
@@ -91,15 +92,26 @@ void AresConnection::newSearchedItem(GIftCommand * command){
         item->setMimeType(command->getProperty("mime")->getValue());
         item->setHash(command->getProperty("hash")->getValue());
 
-        //se chequea el item que se encontro corresponde a una descarga ya inciada. Si es asi se lo agrega como fuente a esa descarga. Esto hace que se aprobechen todas las fuentes encontradas
-        if(downloadHash.contains(item->getHash())){
-            addSource(downloadHash[item->getHash()]->getId(),item->getUrl(),item->getUser());
+        //se chequea si la fuente encontrada pertenece a un locate hecho para encontrar más fuentes para una descarga. Si no es asi se emite una señal informando el item encontrado
+        if(sourceLocateDownloads.contains(searchId)){
+            //en caso de pertencer a una busqueda de más fuentes para una descarga se agrega a este item a la descarga correspondiente
+            addSource(sourceLocateDownloads[searchId],item->getUrl(),item->getUser());
+        }else{
+            //se chequea el item que se encontro corresponde a una descarga ya inciada. Si es asi se lo agrega como fuente a esa descarga. Esto hace que se aprobechen todas las fuentes encontradas
+            if(downloadHash.contains(item->getHash())){
+                addSource(downloadHash[item->getHash()]->getId(),item->getUrl(),item->getUser());
+            }
+            emit itemFinded(item,searchId);
         }
-
-        emit itemFinded(item,command->getValue().toInt());
     }else{
         //un item sin contenido marca el final de una busqueda
-        emit searchFinished(command->getValue().toInt());
+        //se chequea si la fuente encontrada pertenece a un locate hecho para encontrar más fuentes para una descarga. Si no es asi se emite una señal informando el fin de la busqueda
+        if(sourceLocateDownloads.contains(searchId)){
+            //si es una busqueda de fuentes se quita del hash que relaciona la busqueda con las descargas.
+            sourceLocateDownloads.remove(searchId);
+        }else{
+            emit searchFinished(searchId);
+        }
     }
 }
 
@@ -227,6 +239,20 @@ void AresConnection::deleteDownload(int downloadId){
         downloads.remove(downloadId);
         downloadHash.remove(download->getHash());
         delete download;
+    }
+}
+
+void AresConnection::findSources(int downloadId){
+    AresDownload * download;
+    if(download = getDownload(downloadId)){
+        int eventId = giftConnection->getCurrentEventId();
+        //se guarda la correspondencia numero de busqueda -> numero de descarga para luego poder saber a que descarga atacharle las fuentes encontradas
+        sourceLocateDownloads[eventId] = downloadId;
+        //se envia un comando pidiendo más fuentes para la descarga
+        GIftCommand * locateCommand = new GIftCommand("LOCATE",QString::number(eventId));
+        locateCommand->setProperty("query",download->getHash());
+        giftConnection->write(locateCommand);
+        delete locateCommand;
     }
 }
 

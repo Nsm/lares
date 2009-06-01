@@ -26,6 +26,7 @@ public slots:
     void unpauseDownload(int downloadId);
     //elimina una desacarga y su informacion asociada
     void deleteDownload(int downloadId);
+    void findSources(int downloadId);
 private:
     GIftConnection * giftConnection;
     Status connectionStatus;
@@ -40,6 +41,8 @@ private:
     QHash<int,AresDownload *> downloads;
     //hash que relaciona las descargas con su codigo unico (hash del protocolo gft) y pemite una busqueda rapida
     QHash<QString, AresDownload *> downloadHash;
+    //relacion entre busqueda de fuentes y descargas a las que pertenecen
+    QHash<int,int> sourceLocateDownloads;
 private slots:
     void readCommand();
 signals:

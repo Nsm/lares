@@ -22,7 +22,7 @@
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabMain">
       <property name="currentIndex">
-       <number>3</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tabConnection">
        <attribute name="title">
@@ -238,7 +238,7 @@
      <x>0</x>
      <y>0</y>
      <width>568</width>
-     <height>23</height>
+     <height>24</height>
     </rect>
    </property>
   </widget>

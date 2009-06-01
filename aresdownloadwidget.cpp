@@ -49,10 +49,10 @@ void AresDownloadWidget::removeDownload(int downloadId){
 }
 
 void AresDownloadWidget::showContextMenu( const QPoint & pos ){
+    QMenu * contextMenu = new QMenu();
     AresDownloadWidgetItem * item = (AresDownloadWidgetItem *)m_ui->twDownloads->itemAt(pos);
     if(item){
         AresDownload::State itemState = item->getDownloadState();
-        QMenu * contextMenu = new QMenu();
         //Las acciones del menu contextual se muestran de acuerdo al estado del item sobre el cual se ejecutaran (el que este bajo el raton)
         contextMenu->addAction(m_ui->actionPreview);
         if( itemState == AresDownload::ACTIVE){
@@ -61,15 +61,16 @@ void AresDownloadWidget::showContextMenu( const QPoint & pos ){
             contextMenu->addAction(m_ui->actionResume);
         }
         if(itemState != AresDownload::COMPLETED){
+            contextMenu->addAction(m_ui->actionFindSources);
             contextMenu->addAction(m_ui->actionCancel);
         }else{
             contextMenu->addAction(m_ui->actionRemove);
         }
         contextMenu->addSeparator();
-        //acciones que se muestran siempre:
-        contextMenu->addAction(m_ui->actionRemoveAll);
-        contextMenu->exec(QCursor::pos());
     }
+    //acciones que se muestran siempre:
+    contextMenu->addAction(m_ui->actionRemoveAll);
+    contextMenu->exec(QCursor::pos());
 }
 
 void AresDownloadWidget::on_actionCancel_triggered()
@@ -118,4 +119,10 @@ void AresDownloadWidget::on_actionPreview_triggered()
 {
     AresDownloadWidgetItem * item = (AresDownloadWidgetItem *)m_ui->twDownloads->currentItem();
     emit downloadPreviewed(item->getDownloadId());
+}
+
+void AresDownloadWidget::on_actionFindSources_triggered()
+{
+    AresDownloadWidgetItem * item = (AresDownloadWidgetItem *)m_ui->twDownloads->currentItem();
+    emit sourcesFinded(item->getDownloadId());
 }

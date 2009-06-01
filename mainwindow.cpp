@@ -34,6 +34,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(downloadWidget,SIGNAL(downloadResumed(int)),connection,SLOT(unpauseDownload(int)));
     connect(downloadWidget,SIGNAL(downloadRemoved(int)),connection,SLOT(deleteDownload(int)));
     connect(downloadWidget,SIGNAL(downloadPreviewed(int)),this,SLOT(previewDownload(int)));
+    connect(downloadWidget,SIGNAL(sourcesFinded(int)),connection,SLOT(findSources(int)));
 }
 
 MainWindow::~MainWindow()
@@ -68,7 +69,9 @@ void MainWindow::currentSearchTabChanged(int tabId){
 }
 
 void MainWindow::itemFinded(AresItem * item, int searchId){
-    searchWidgets[searchId]->addItem(item);
+    if(searchWidgets.contains(searchId)){
+        searchWidgets[searchId]->addItem(item);
+    }
 }
 
 void MainWindow::on_pbConnect_clicked()

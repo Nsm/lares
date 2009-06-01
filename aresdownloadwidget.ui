@@ -84,6 +84,11 @@
     <string>Previsualizar descarga</string>
    </property>
   </action>
+  <action name="actionFindSources">
+   <property name="text">
+    <string>Buscar más fuentes</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

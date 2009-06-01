@@ -35,6 +35,7 @@ protected slots:
 
 void on_actionRemove_triggered();
     private slots:
+    void on_actionFindSources_triggered();
     void on_actionPreview_triggered();
     void on_actionRemoveAll_triggered();
     void on_actionResume_triggered();
@@ -47,6 +48,7 @@ signals:
     void downloadResumed(int downloadId);
     void downloadRemoved(int downloadId);
     void downloadPreviewed(int downloadId);
+    void sourcesFinded(int downloadId);
 
 };
 
