@@ -6,7 +6,7 @@ AresDownloadWidgetDelegate::AresDownloadWidgetDelegate()
 
 void AresDownloadWidgetDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,const QModelIndex &index ) const
 {
-    if (index.column() != 3) {
+    if (index.column() != AresDownloadWidgetItem::PERCENTAGE) {
         QItemDelegate::paint(painter, option, index);
         return;
     }

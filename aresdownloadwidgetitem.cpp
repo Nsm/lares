@@ -5,8 +5,10 @@ AresDownloadWidgetItem::AresDownloadWidgetItem(QTreeWidget * parent,AresDownload
 {
     this->download = download;
     //se muestra la informacion fija del item
-    this->setText(0,download->getFileName());
-    this->setText(1,QString::number(qRound(download->getSize() / 1024)) + "Kb");
+    this->setText(NAME,download->getFileName());
+    this->setText(SIZE,QString::number(qRound(download->getSize() / 1024)) + "Kb");
+    //se pone en el rol de usuario el valor numerico completo del tamaño para poder usarlo cuando se ordena la lista
+    this->setData(SIZE,Qt::UserRole,int(download->getSize()));
     //se muestra la informacion que varia con el tiempo del item
     this->update();
 }
@@ -21,12 +23,14 @@ int AresDownloadWidgetItem::getDownloadId()
 */
 void AresDownloadWidgetItem::update()
 {
-    this->setText(2,QString::number(qRound(download->getTransmit() / 1024)) + "Kb");
+    this->setText(DOWNLOADED,QString::number(qRound(download->getTransmit() / 1024)) + "Kb");
+    //se pone en el rol de usuario el valor numerico completo del tamaño de la descarga para poder usarlo cuando se ordena la lista
+    this->setData(DOWNLOADED,Qt::UserRole,int(download->getTransmit()));
     int percentage = 100;
     if(download->getSize()){
         percentage = download->getTransmit() * 100 / download->getSize();
     }
-    this->setData(3,Qt::DisplayRole, percentage);
+    this->setData(PERCENTAGE,Qt::DisplayRole, percentage);
     //dependiendo del estado de la descarga se utiliza un color para la fuente
     QBrush brush;
     switch(download->getState()){
@@ -55,3 +59,13 @@ void AresDownloadWidgetItem::setDownloadState(AresDownload::State state){
     update();
 }
 
+bool AresDownloadWidgetItem::operator<(const QTreeWidgetItem &other)const{
+    int column = treeWidget()->sortColumn();
+    if( column == PERCENTAGE ){
+        return data(column,Qt::DisplayRole).toInt() < other.data(column,Qt::DisplayRole).toInt();
+    }else if(column == SIZE || column == DOWNLOADED){
+        return data(column,Qt::UserRole).toInt() < other.data(column,Qt::UserRole).toInt();
+    }else{
+        return QTreeWidgetItem::operator <(other);
+    }
+}

@@ -6,6 +6,7 @@
 class AresDownloadWidgetItem : public QTreeWidgetItem
 {
 public:
+    static const int NAME = 0, SIZE = 1, DOWNLOADED = 2, PERCENTAGE = 3;
     AresDownloadWidgetItem();
     AresDownloadWidgetItem(QTreeWidget * parent,AresDownload * download);
     int getDownloadId();
@@ -15,6 +16,7 @@ public:
     void update();
 private:
     AresDownload * download;
+    bool operator<(const QTreeWidgetItem &other)const;
 };
 
 #endif // ARESDOWNLOADWIDGETITEM_H

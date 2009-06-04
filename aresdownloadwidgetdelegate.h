@@ -3,6 +3,7 @@
 
 #include <QItemDelegate>
 #include <QApplication>
+#include "aresdownloadwidgetitem.h"
 
 class AresDownloadWidgetDelegate : public QItemDelegate
 {
