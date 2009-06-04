@@ -8,6 +8,7 @@
 class AresSearchWidgetItem : public QTreeWidgetItem
 {
 public:
+    static const int NAME = 0, SIZE = 1, SOURCES = 2;
     AresSearchWidgetItem(QTreeWidget * parent);
     virtual ~AresSearchWidgetItem();
     void addAresItem(AresItem * item);

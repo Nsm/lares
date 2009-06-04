@@ -16,14 +16,16 @@ void AresSearchWidgetItem::addAresItem(AresItem * item){
         * si la lista de items de ares esta vacia entonces se llena la informacion
         * del elemento del listado con los datos de este primer item
         */
-        this->setText(0,item->getFileName());
-        this->setText(1,QString::number(qRound(item->getSize() / 1024)) + " Kb");
+        this->setText(NAME,item->getFileName());
+        this->setText(SIZE,QString::number(qRound(item->getSize() / 1024)) + " Kb");
+        //se pone en el rol de usuario el valor numerico completo del tamaño para poder usarlo cuando se ordena la lista
+        this->setData(SIZE,Qt::UserRole,int(item->getSize()));
     }
 
     aresItems.append(item);
 
     //se actualiza la cantidad de fuentes del elemento del listado
-    this->setText(2,QString::number(aresItems.count()));
+    this->setText(SOURCES,QString::number(aresItems.count()));
 }
 
 AresDownloadRequest * AresSearchWidgetItem::getDownloadRequest(){    
@@ -45,8 +47,10 @@ AresDownloadRequest * AresSearchWidgetItem::getDownloadRequest(){
 
 bool AresSearchWidgetItem::operator<(const QTreeWidgetItem &other)const{
     int column = treeWidget()->sortColumn();
-    if( column == 2){
+    if( column == SOURCES ){
         return data(column,Qt::DisplayRole).toInt() < other.data(column,Qt::DisplayRole).toInt();
+    }else if(column == SIZE){
+        return data(column,Qt::UserRole).toInt() < other.data(column,Qt::UserRole).toInt();
     }else{
         return QTreeWidgetItem::operator <(other);
     }
