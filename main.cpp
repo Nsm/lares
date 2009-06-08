@@ -4,7 +4,8 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    a.setApplicationName("Lares");
+    a.setOrganizationName("perlanegra");
+    a.setApplicationName("pares");
     MainWindow w;
     w.show();
     return a.exec();

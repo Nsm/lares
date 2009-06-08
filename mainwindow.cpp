@@ -135,6 +135,7 @@ void MainWindow::previewDownload(int downloadId){
     seekSlider->setMediaObject(mediaPreview);
     mediaPreview->play();
     ui->statusBar->showMessage(tr("Previsualizando %1").arg(download->getFileName()),2000);
+    ui->statusBar->showMessage(download->getFilePath(),2000);
 }
 
 void MainWindow::on_tbPreviewPlay_clicked()

@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QList>
 #include <QDir>
+#include <QSettings>
+
 class AresDownload : public QObject
 {
 public:
@@ -53,6 +55,7 @@ private:
     bool shared;
     //velocidad instantanea de bajada en bytes/segundo
     long instantSpeed;
+    QSettings settings;
 };
 
 #endif // ARESDOWNLOAD_H

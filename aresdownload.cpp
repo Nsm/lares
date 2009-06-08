@@ -80,11 +80,12 @@ long AresDownload::getInstantSpeed(){
 QString AresDownload::getFilePath(){
     //TODO las rutas a la carpeta de completados y de temporales deberian leerse de alguna clase de configuracion
     QString filePath = "";
-    QString giFTDir = QDir::homePath() + "/.giFT";
+    QString downloadsPath = settings.value("aresdownload/completedpath",QDir::homePath() + "/.giFT/completed/").toString();
+    QString tempsPath = settings.value("aresdownload/incomingpath",QDir::homePath() + "/.giFT/incoming/").toString();
     if(getState() == COMPLETED){
-        filePath = giFTDir + "/completed/" + getFileName();
+        filePath = downloadsPath + getFileName();
     }else{
-        QDir tempDir(giFTDir + "/incoming");
+        QDir tempDir(tempsPath);
         QStringList list = tempDir.entryList().filter(getFileName());
         if(list.length() > 0){
             filePath = tempDir.path() + "/" + list.first();
